@@ -15,9 +15,41 @@ using Microsoft.VisualStudio.OLE.Interop;
 using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;
 using Microsoft.Win32;
+using System.ComponentModel;
+using System.Windows.Forms;
+using System.Windows;
+using Scrubs.VisualStudio;
 
 namespace VsTrello
 {
+    [Guid(Guids.OptionsPage)]
+    public class OptionPageCustom : UIElementDialogPage
+    {
+        OptionsPageControl child;
+        IPackageSettings packageSettings;
+
+        protected override UIElement Child
+        {
+            get { return child ?? (child = new OptionsPageControl()); }
+        }
+
+        protected override void OnActivate(CancelEventArgs e)
+        {
+            base.OnActivate(e);
+            packageSettings = Services.DefaultExportProvider.GetExportedValue<IPackageSettings>();
+        }
+
+        protected override void OnApply(PageApplyEventArgs args)
+        {
+            if (args.ApplyBehavior == ApplyKind.Apply)
+            {
+                packageSettings.Save();
+            }
+
+            base.OnApply(args);
+        }
+    }
+
     /// <summary>
     /// This is the class that implements the package exposed by this assembly.
     /// </summary>
@@ -40,8 +72,12 @@ namespace VsTrello
     [Guid(Guids.Package)]
     [SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1650:ElementDocumentationMustBeSpelledCorrectly", Justification = "pkgdef, VS and vsixmanifest are valid VS terms")]
     [ProvideAutoLoad(VSConstants.UICONTEXT.NoSolution_string)]
+    [ProvideOptionPage(typeof(OptionPageCustom), "VsTrello", "General", 0, 0, true)]
     public sealed class VsTrelloPackage : Package
     {
+        public static string AppName = "VsTrello";
+        public static VsTrelloPackage Package;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="VsTrelloPackage"/> class.
         /// </summary>
@@ -51,7 +87,10 @@ namespace VsTrello
             // any Visual Studio service because at this point the package object is created but
             // not sited yet inside Visual Studio environment. The place to do all the other
             // initialization is the Initialize method.
+            Package = this;
         }
+
+        
 
         #region Package Members
 
@@ -62,6 +101,7 @@ namespace VsTrello
         protected override void Initialize()
         {
             base.Initialize();
+            Services.PackageServiceProvider = this;
         }
 
         #endregion

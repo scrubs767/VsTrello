@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Microsoft.VisualStudio.Shell;
+using Scrubs.VisualStudio;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Linq;
@@ -16,20 +18,17 @@ using System.Windows.Shapes;
 
 namespace VsTrello
 {
-    [Export("CardsList", typeof(IPageComponent))]
-    public partial class CardList : UserControl, IPageComponent
+    [Export("AuthNeededComponent", typeof(IPageComponent))]
+    public partial class AuthorizationNeeded : UserControl, IPageComponent
     {
-        private CardsListViewModel cardsListViewModel;
-
-        private CardList()
+        public AuthorizationNeeded()
         {
             InitializeComponent();
         }
 
-        [ImportingConstructor]
-        public CardList(ICardsListViewModel cardsListViewModel) : this()
+        private void Hyperlink_Click(object sender, RoutedEventArgs e)
         {
-            DataContext = cardsListViewModel;
+            VsTrelloPackage.Package.ShowOptionPage(typeof(OptionPageCustom));
         }
     }
 }

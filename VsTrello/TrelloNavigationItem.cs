@@ -8,6 +8,7 @@ using Microsoft.TeamFoundation.Controls;
 using System.ComponentModel.Composition;
 using VsTrello.Properties;
 using Microsoft.VisualStudio.Shell;
+using Scrubs.VisualStudio;
 
 namespace VsTrello
 {

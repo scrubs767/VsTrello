@@ -15,7 +15,13 @@
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </UserControl.Resources>
-    <StackPanel>
-        <wpf:LabeledTextBox Text="{Binding CardSearchString, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" Grid.Row="1" VerticalAlignment="Center" Grid.Column="0" Margin="5" HintText="Enter Search String, try @me" IsRequired="true" AcceptsReturn="false" />
-    </StackPanel>
+    <DockPanel>
+        <StackPanel DockPanel.Dock="Top">
+        <wpf:LabeledTextBox  Text="{Binding CardSearchString, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" Margin="5" HintText="Enter Search String, try @me" IsRequired="true" AcceptsReturn="false" />
+        <StackPanel Orientation="Horizontal">
+            <Button Width="75" Margin="5,2,0,0" Content="Search" Command="{Binding SearchCommand}"/>
+        </StackPanel>
+        </StackPanel>
+        <ListView  Margin="5" ItemsSource="{Binding Cards}"/>
+    </DockPanel>
 </UserControl>

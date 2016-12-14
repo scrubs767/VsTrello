@@ -1,0 +1,36 @@
+﻿<UserControl x:Class="VsTrello.OptionsPageControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:VsTrello"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300">
+    <GroupBox Header="Authorization">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="25"/>
+                <RowDefinition Height="22"/>
+                <RowDefinition/>
+                <RowDefinition Height="22"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Label Grid.Row="0" Content="Token"/>
+            <TextBox Grid.Row="1" Text="{Binding Token}"/>
+            <TextBlock Grid.Row="2" TextWrapping="Wrap" Text="Your token can be generated at Trello's website, just click the following URL and copy the Token into the above text box"/>
+            <TextBlock Grid.Row="3">
+                <TextBlock>
+                    <Hyperlink NavigateUri="{Binding TokenRequestUrl}" RequestNavigate="Hyperlink_RequestNavigate">
+                        <Hyperlink.Inlines>
+                            <Run Text="Get Token"/>
+                        </Hyperlink.Inlines>
+                    </Hyperlink>
+                </TextBlock>
+            </TextBlock>
+        </Grid>
+    </GroupBox>
+    
+</UserControl>
