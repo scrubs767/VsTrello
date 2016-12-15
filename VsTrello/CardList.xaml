@@ -15,13 +15,54 @@
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </UserControl.Resources>
-    <DockPanel>
-        <StackPanel DockPanel.Dock="Top">
-        <wpf:LabeledTextBox  Text="{Binding CardSearchString, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" Margin="5" HintText="Enter Search String, try @me" IsRequired="true" AcceptsReturn="false" />
-        <StackPanel Orientation="Horizontal">
-            <Button Width="75" Margin="5,2,0,0" Content="Search" Command="{Binding SearchCommand}"/>
-        </StackPanel>
-        </StackPanel>
-        <ListView  Margin="5" ItemsSource="{Binding Cards}"/>
-    </DockPanel>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="25"/>
+            <RowDefinition Height="25"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+
+            <wpf:LabeledTextBox Grid.Row="0" Text="{Binding CardSearchString, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" Margin="5" HintText="Enter Search String, try @me" IsRequired="true" AcceptsReturn="false" />
+
+        <Button Grid.Row="1" Width="75" Margin="0,0,5,0" Content="Search" Command="{Binding SearchCommand}" HorizontalAlignment="Right"/>
+
+        <ListView Grid.Row="2" Margin="5" SelectedItem="{Binding SelectedCard}" ItemsSource="{Binding Cards}" VerticalContentAlignment="Stretch"  MouseDoubleClick="ListView_MouseDoubleClick">
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn Header="#" Width="Auto" DisplayMemberBinding="{Binding ShortId}" />
+                        <GridViewColumn Header="Name" Width="Auto" DisplayMemberBinding="{Binding Name}" />
+                        <!--<GridViewColumn Header="Created" Width="Auto" DisplayMemberBinding="{Binding CreationDate, StringFormat=d}" />
+                        <GridViewColumn Header="Due" Width="Auto" DisplayMemberBinding="{Binding DueDate, StringFormat=d}" />-->
+                        <GridViewColumn Header="List" Width="Auto" DisplayMemberBinding="{Binding List}" />
+                    </GridView>
+                </ListView.View>
+            <ListView.ItemContainerStyle>
+                <Style TargetType="{x:Type ListViewItem}">
+                    <Setter Property="ToolTip">
+                        <Setter.Value>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition/>
+                                    <RowDefinition/>
+                                    <RowDefinition/>
+                                </Grid.RowDefinitions>
+                                <Label Grid.Row="0" Grid.ColumnSpan="2" Content="{Binding Name}"/>
+                                <Label Grid.Column="0" Grid.Row="1" Content="Created:"/>
+                                <Label Grid.Column="1" Grid.Row="1" Content="{Binding CreationDate}"/>
+                                <Label Grid.Column="0" Grid.Row="2" Content="Due:"/>
+                                <Label Grid.Column="1" Grid.Row="2" Content="{Binding DueDate,TargetNullValue=None}"/>
+                            </Grid>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </ListView.ItemContainerStyle>
+        </ListView>
+    </Grid>
 </UserControl>

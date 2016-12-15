@@ -8,6 +8,7 @@ using System.ComponentModel.Composition;
 using Manatee.Trello;
 using System.Windows.Input;
 using Scrubs.VisualStudio;
+using System.Diagnostics;
 
 namespace VsTrello
 {
@@ -19,9 +20,21 @@ namespace VsTrello
         public CardsListViewModel()
         {
             SearchCommand = new RelayCommand(SearchExecute, CanSearchExecute);
+            OpenCardCommand = new RelayCommand(OpenCardExecute, (_)=> { return true; });
             _settings = Services.DefaultExportProvider.GetExportedValue<IPackageSettings>();
             _searchString = _settings.LastSearch;
         }
+
+        public Card SelectedCard { get; set; }
+        private void OpenCardExecute(object obj)
+        {
+            if(SelectedCard != null)
+            {
+                Process.Start(SelectedCard.ShortUrl);
+            }
+        }
+
+        public ICommand OpenCardCommand { get; set; }
 
         private bool CanSearchExecute(object arg)
         {

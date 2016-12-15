@@ -19,17 +19,23 @@ namespace VsTrello
     [Export("CardsList", typeof(IPageComponent))]
     public partial class CardList : UserControl, IPageComponent
     {
-        private CardsListViewModel cardsListViewModel;
+        //private CardsListViewModel cardsListViewModel;
 
-        private CardList()
-        {
-            InitializeComponent();
-        }
+        //private CardList()
+        //{
+            
+        //}
 
         [ImportingConstructor]
-        public CardList(ICardsListViewModel cardsListViewModel) : this()
+        public CardList(ICardsListViewModel cardsListViewModel) 
         {
+            InitializeComponent();
             DataContext = cardsListViewModel;
+        }
+
+        private void ListView_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            ((CardsListViewModel)DataContext).OpenCardCommand.Execute(null);
         }
     }
 }
