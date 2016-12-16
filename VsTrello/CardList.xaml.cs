@@ -33,9 +33,9 @@ namespace VsTrello
             DataContext = cardsListViewModel;
         }
 
-        private void ListView_MouseDoubleClick(object sender, MouseButtonEventArgs e)
-        {
-            ((CardsListViewModel)DataContext).OpenCardCommand.Execute(null);
-        }
+        //private void ListView_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        //{
+        //    ((CardsListViewModel)DataContext).OpenCardCommand.Execute(null);
+        //}
     }
 }

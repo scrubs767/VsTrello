@@ -21,10 +21,17 @@ namespace VsTrello
         {
             SearchCommand = new RelayCommand(SearchExecute, CanSearchExecute);
             OpenCardCommand = new RelayCommand(OpenCardExecute, (_)=> { return true; });
+            LaunchBroswerCommand = new RelayCommand(OpenBrowser, (_) => { return true; });
             _settings = Services.DefaultExportProvider.GetExportedValue<IPackageSettings>();
             _searchString = _settings.LastSearch;
         }
 
+        private void OpenBrowser(object obj)
+        {
+            Process.Start(obj.ToString());
+        }
+
+        public ICommand LaunchBroswerCommand { get; set; }
         public Card SelectedCard { get; set; }
         private void OpenCardExecute(object obj)
         {
