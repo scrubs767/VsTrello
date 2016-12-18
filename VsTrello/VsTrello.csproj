@@ -51,20 +51,20 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="AuthorizationNeeded.xaml.cs">
+    <Compile Include="UI\AuthorizationNeeded.xaml.cs">
       <DependentUpon>AuthorizationNeeded.xaml</DependentUpon>
     </Compile>
-    <Compile Include="CardList.xaml.cs">
+    <Compile Include="UI\CardList.xaml.cs">
       <DependentUpon>CardList.xaml</DependentUpon>
     </Compile>
-    <Compile Include="CardsListViewModel.cs" />
-    <Compile Include="Colors.cs" />
+    <Compile Include="UI\CardsListViewModel.cs" />
+    <Compile Include="Utility\Colors.cs" />
     <Compile Include="Guids.cs" />
     <Compile Include="IPageComponent.cs" />
     <Compile Include="IPackageSettings.cs" />
     <Compile Include="ITrelloWrapper.cs" />
-    <Compile Include="ICardsListViewModel.cs" />
-    <Compile Include="OptionsPageControl.xaml.cs">
+    <Compile Include="UI\ICardsListViewModel.cs" />
+    <Compile Include="UI\OptionsPageControl.xaml.cs">
       <DependentUpon>OptionsPageControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="PackageSettings.cs" />
@@ -269,11 +269,11 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="license.txt">
+    <Content Include="Documentation\License.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <IncludeInVSIX>true</IncludeInVSIX>
     </Content>
-    <Content Include="Release Notes.txt">
+    <Content Include="Documentation\Release Notes.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <IncludeInVSIX>true</IncludeInVSIX>
     </Content>
@@ -282,7 +282,7 @@
       <IncludeInVSIX>true</IncludeInVSIX>
     </Content>
     <Content Include="Resources\VsTrelloPackage.ico" />
-    <Content Include="vstrello.png">
+    <Content Include="Assets\vstrello.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <IncludeInVSIX>true</IncludeInVSIX>
     </Content>
@@ -298,15 +298,15 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <Page Include="AuthorizationNeeded.xaml">
+    <Page Include="UI\AuthorizationNeeded.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="CardList.xaml">
+    <Page Include="UI\CardList.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="OptionsPageControl.xaml">
+    <Page Include="UI\OptionsPageControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
