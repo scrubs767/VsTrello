@@ -3,7 +3,12 @@
   <Metadata>
     <Identity Id="VsTrello.Steve Przepiora.566f2d2f-1072-47b9-a9f0-dbfb0e11086f" Version="0.1.0" Language="en-US" Publisher="Steve Przepiora" />
     <DisplayName>VsTrello</DisplayName>
-    <Description>Empty VSIX Project.</Description>
+    <Description xml:space="preserve">A Team Explorer extension to allow you to view your Trello cards.</Description>
+    <License>license.txt</License>
+    <ReleaseNotes>Release Notes.txt</ReleaseNotes>
+    <Icon>Resources\trello-mark-blue.png</Icon>
+    <PreviewImage>vstrello.png</PreviewImage>
+    <Tags >Trello </Tags>
   </Metadata>
   <Installation>
     <InstallationTarget Id="Microsoft.VisualStudio.Community" Version="[14.0]" />
