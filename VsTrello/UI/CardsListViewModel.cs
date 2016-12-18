@@ -26,6 +26,9 @@ namespace VsTrello
             _searchString = _settings.LastSearch;
         }
 
+        private bool _IsProgressBarRunning = false;
+        public bool IsProgressBarRunning { get { return _IsProgressBarRunning; } set { _IsProgressBarRunning = value; RaisePropertyChanged(); } }
+
         private void OpenBrowser(object obj)
         {
             Process.Start(obj.ToString());
@@ -51,9 +54,11 @@ namespace VsTrello
 
         private async void SearchExecute(object obj)
         {
+            IsProgressBarRunning = true;
             _settings.LastSearch = _searchString;
             _settings.Save();
             Cards = await DoSearch(CardSearchString);
+            IsProgressBarRunning = false;
         }
 
         public ICommand SearchCommand { get; set; }
