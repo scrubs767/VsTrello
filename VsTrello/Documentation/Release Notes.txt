@@ -1,3 +1,6 @@
-﻿Version 0.1.0:
+﻿Version 0.1.1:
+Changed to vsixmanifest.
+
+Version 0.1.0:
 Initial release. This version can search card and displays them in the VsTrello window, when you double click 
 an item it opens your browser on the card.
