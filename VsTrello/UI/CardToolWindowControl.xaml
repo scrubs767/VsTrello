@@ -142,7 +142,7 @@
                 <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
             <TextBlock Grid.Column="0" Margin="5,0,0,0" FontSize="18" FontWeight="Bold">Actions</TextBlock>
-            <CheckBox Grid.Column="1" IsChecked="{Binding ShowDetails, Mode=OneWayToSource}">Show Details</CheckBox>
+            <CheckBox Grid.Column="1" IsChecked="{Binding ShowDetails, Mode=TwoWay}">Show Details</CheckBox>
         </Grid>
         <ListView Grid.Row="5" Margin="5,0,0,0" ItemsSource="{Binding Actions}" ScrollViewer.HorizontalScrollBarVisibility="Disabled" HorizontalContentAlignment="Stretch">
             <ListView.ItemContainerStyle>

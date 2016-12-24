@@ -9,6 +9,7 @@ namespace VsTrello
         string Token { get; set; }
         string LastSearch { get; set; }
         void Save();
+        bool ShowDetails { get; set; }
         event PropertyChangedEventHandler PropertyChanged;
     }
 }

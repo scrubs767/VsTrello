@@ -52,11 +52,19 @@ namespace VsTrello
             set { _lastSearch = value; RaisePropertyChanged(); }
         }
 
+        bool _showDetails;
+        public bool ShowDetails
+        {
+            get { return _showDetails; }
+            set { _showDetails = value; RaisePropertyChanged(); }
+        }
+
         void LoadSettings()
         {
             ApplicationKey = "cee553af96c8146989fff7c325b8ef54";
             Token = (string)_settingsStore.Read("Token", null);
             LastSearch = (string)_settingsStore.Read("LastSearch", null);
+            ShowDetails = (bool)_settingsStore.Read("ShowDetails", true);
         }
 
         void SaveSettings()
@@ -64,6 +72,7 @@ namespace VsTrello
            // _settingsStore.Write("ApplicationKey", ApplicationKey);
             _settingsStore.Write("Token", Token);
             _settingsStore.Write("LastSearch", LastSearch);
+            _settingsStore.Write("ShowDetails", ShowDetails);
         }
     }
 }

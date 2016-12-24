@@ -48,7 +48,7 @@ namespace VsTrello.ViewModels
                 var toolWindowManager = _serviceProvider.GetService(typeof(SToolWindowManager)) as IToolWindowManager;
                 if (toolWindowManager != null)
                 {
-                    toolWindowManager.OpenCardEditorWindow(new CardViewModel(SelectedCard));
+                    toolWindowManager.OpenCardEditorWindow(new CardViewModel(_serviceProvider, SelectedCard));
                 }
             }
         }

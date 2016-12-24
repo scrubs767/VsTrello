@@ -12,17 +12,13 @@ namespace VsTrello.ViewModels
 {
     public class CardViewModel : ViewModelBase, ICardViewModel, IDisposable
     {
-        public CardViewModel(Card card)
+        IPackageSettings _settings;
+        public CardViewModel(IServiceProvider serviceProvider, Card card)
         {
-            var actions = card.Actions.ToList();
-            var types = actions.Select(c => c.Type);
-            foreach(var action in actions)
-            {
-                var data = action.Data;
-                var type = action.Type;
-            }
+            _settings = Scrubs.VisualStudio.Services.DefaultExportProvider.GetExportedValue<IPackageSettings>();
             Card = card;
             Card.Updated += Card_Updated;
+            //ShowDetails = true;
         }
 
         private void Card_Updated(Card arg1, IEnumerable<string> arg2)
@@ -30,8 +26,17 @@ namespace VsTrello.ViewModels
             RaisePropertyChanged("Card");
         }
 
-        bool _showDetails = true;
-        public bool ShowDetails { get { return _showDetails; } set { _showDetails = value; RaisePropertyChanged("Actions"); } }
+        public bool ShowDetails //{ get; set; }
+        {
+            get
+            {
+                return _settings.ShowDetails;
+            }
+    set
+            {
+                _settings.ShowDetails = value; _settings.Save(); RaisePropertyChanged("Actions");
+}
+        }
         Card _card;
         public Card Card { get { return _card; } set { _card = value; RaisePropertyChanged(); } }
         public System.Collections.ObjectModel.ReadOnlyCollection<IAction> Actions
@@ -39,8 +44,8 @@ namespace VsTrello.ViewModels
             get
             {
                 List<IAction> actions = new List<IAction>();
-                var act = Card.Actions.Filter(ActionType.All).ToList();
-                Card.Actions.Filter(ActionType.All).ToList().ForEach(a =>
+
+                Card.Actions.Filter( ShowDetails ? ActionType.All : ActionType.CommentCard ).ToList().ForEach(a =>
                 {
                     var action = getAction(a);
                     if(action != null)
