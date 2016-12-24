@@ -25,7 +25,7 @@ namespace VsTrello
             TrelloConfiguration.JsonFactory = new ManateeFactory();
             TrelloConfiguration.RestClientProvider = new WebApiClientProvider();
 
-            _settings = Services.DefaultExportProvider.GetExportedValue<IPackageSettings>();
+            _settings = Scrubs.VisualStudio.Services.DefaultExportProvider.GetExportedValue<IPackageSettings>();
             _settings.PropertyChanged += _settings_PropertyChanged;
             TrelloAuthorization.Default.AppKey = _settings.ApplicationKey;
             TrelloAuthorization.Default.UserToken = _settings.Token;

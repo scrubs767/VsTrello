@@ -9,7 +9,7 @@ using System.ComponentModel.Composition;
 using VsTrello.Properties;
 using Microsoft.VisualStudio.Shell;
 using Scrubs.VisualStudio;
-
+using VsTrello.Utility;
 namespace VsTrello
 {
     [TeamExplorerNavigationItem(Guids.TrelloNavigationItem, 1500, TargetPageId = Guids.TrelloPage)]
@@ -21,7 +21,7 @@ namespace VsTrello
         {
             ServiceProvider = serviceProvider;
             Image = Resources.trello_mark_blue;
-            ArgbColor = Colors.TrelloBlue.ToInt32();
+            ArgbColor = VsTrello.Utility.Colors.TrelloBlue.ToInt32();
             IsVisible = true;
             IsEnabled = true;          
             Text = "VsTrello";

@@ -1,0 +1,162 @@
+﻿<UserControl x:Class="VsTrello.UI.CardToolWindowControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:vm="clr-namespace:VsTrello.ViewModels"
+             xmlns:mt="clr-namespace:Manatee.Trello;assembly=Manatee.Trello"
+             xmlns:ui="clr-namespace:VsTrello.UI"
+             xmlns:diag="clr-namespace:System.Diagnostics;assembly=WindowsBase"
+             xmlns:mwc="clr-namespace:Scrubs.MvvmWeak.Converters;assembly=Scrubs.MvvmWeak"
+             Background="{DynamicResource VsBrush.Window}"
+             Foreground="{DynamicResource VsBrush.WindowText}"
+             mc:Ignorable="d"
+             d:DesignHeight="300" d:DesignWidth="300"
+             Name="MyToolWindow">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/VsTrello;component/Resources/Dictionary.xaml" />
+                <ResourceDictionary>
+                    <mwc:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
+                    <ui:TrelloColorConverter x:Key="TrelloColorConverter"/>
+                    <ui:LaunchBrowserCommand x:Key="LaunchBrowserCommand" />
+                    <ui:DebugConverter x:Key="DebugConverter"/>
+                    <DataTemplate DataType="{x:Type vm:Comment}">
+                        <StackPanel>
+                            <Border BorderThickness="1" Background="White" BorderBrush="{DynamicResource ItemBorderBrushKey}" CornerRadius="5" Padding="2" HorizontalAlignment="Stretch">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition/>
+                                        <RowDefinition/>
+                                        <RowDefinition/>
+                                    </Grid.RowDefinitions>
+                                    <Image Grid.Row="0" Grid.Column="0" Height="24" Width="24" Margin="5,0,5,0" Source="{Binding MemberImage}" />
+                                    <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding Creator}" FontWeight="Bold" />
+                                    <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding Text }" TextWrapping="Wrap" />
+                                    <TextBlock Grid.Row="2" Grid.Column="1" Text="{Binding Date }" />
+                                </Grid>
+                            </Border>
+                        </StackPanel>
+                    </DataTemplate>
+                    <DataTemplate DataType="{x:Type vm:SimpleAction}">
+                        <Border BorderThickness="1" Background="White" BorderBrush="{DynamicResource ItemBorderBrushKey}" CornerRadius="5" Padding="2" Visibility="{Binding Visible, Converter={StaticResource BooleanToVisibilityConverter}}">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                <Image Grid.Column="0" Height="24" Width="24" Margin="5" Source="{Binding MemberImage}" />
+                                <TextBlock Grid.Column="1" Text="{Binding Creator}" FontWeight="Bold"  />
+                                <TextBlock Grid.Column="2" Text="{Binding Text }" Margin="5,0,5,0"/>
+                                <TextBlock Grid.Column="3" Text="{Binding Date }" />
+                            </Grid>
+                        </Border>
+                    </DataTemplate>
+                </ResourceDictionary>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="3*"/>
+            <ColumnDefinition Width="1*"/>
+        </Grid.ColumnDefinitions>
+        <StackPanel Grid.Row="0" Margin="5,5,0,20">
+            <TextBlock  FontSize="18" FontWeight="Bold" Text="{Binding Card.Name}"/>
+            <WrapPanel>
+                <TextBlock Text="in list"/>
+                <TextBlock  Text="{Binding Card.List}"/>
+            </WrapPanel>
+        </StackPanel>
+        <Grid Grid.Row="1"  Margin="5,5,0,20">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="1*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <TextBlock Text="Members" Grid.Column="0" Grid.Row="0"/>
+            <TextBlock Text="Labels" Grid.Column="1" Grid.Row="0"/>
+            <ItemsControl Margin="5" Grid.Column="0" Grid.Row="1" ItemsSource="{Binding Card.Members}">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <WrapPanel />
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Image Height="30" Width="30" Margin="0,0,2,0" Source="{Binding AvatarUrl, diag:PresentationTraceSources.TraceLevel=High}"/>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+
+            <ItemsControl Margin="5" Grid.Column="1" Grid.Row="1" ItemsSource="{Binding Card.Labels}">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <WrapPanel />
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Border Background="{Binding Color, Converter={StaticResource TrelloColorConverter}}"  CornerRadius="5">
+                            <TextBlock Margin="5" Text="{Binding Name}" Background="{Binding Color, Converter={StaticResource TrelloColorConverter}}" Foreground="White" FontWeight="Bold"/>
+                        </Border>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </Grid>
+        <TextBlock Grid.Row="2"  Margin="5,0,0,0" FontSize="18" FontWeight="Bold">Attachments</TextBlock>
+        <ItemsControl Grid.Row="3" Margin="5,0,0,20" ItemsSource="{Binding Card.Attachments}" ScrollViewer.HorizontalScrollBarVisibility="Disabled" HorizontalContentAlignment="Stretch">
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock Grid.Row="1">
+                    <Hyperlink Command="{StaticResource LaunchBrowserCommand}" CommandParameter="{Binding Url}">
+                        <Hyperlink.Inlines>
+                            <Run Text="{Binding Name, Mode=OneWay}" />
+                        </Hyperlink.Inlines>
+                    </Hyperlink>
+                    </TextBlock>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
+        <Grid Grid.Row="4">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <TextBlock Grid.Column="0" Margin="5,0,0,0" FontSize="18" FontWeight="Bold">Actions</TextBlock>
+            <CheckBox Grid.Column="1" IsChecked="{Binding ShowDetails, Mode=OneWayToSource}">Show Details</CheckBox>
+        </Grid>
+        <ListView Grid.Row="5" Margin="5,0,0,0" ItemsSource="{Binding Actions}" ScrollViewer.HorizontalScrollBarVisibility="Disabled" HorizontalContentAlignment="Stretch">
+            <ListView.ItemContainerStyle>
+                <Style TargetType="{x:Type ListViewItem}">
+                    <Setter Property="Background" Value="Transparent" />
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="{x:Type ListViewItem}">
+                                <ContentPresenter />
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </ListView.ItemContainerStyle>
+        </ListView>
+    </Grid>
+</UserControl>
