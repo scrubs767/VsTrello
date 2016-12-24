@@ -19,7 +19,7 @@ namespace VsTrello
         {
             base.Initialize(sender, e);
             Title = "VsTrello";
-            _settings = Services.DefaultExportProvider.GetExportedValue<IPackageSettings>();
+            _settings = Scrubs.VisualStudio.Services.DefaultExportProvider.GetExportedValue<IPackageSettings>();
             _settings.PropertyChanged += _settings_PropertyChanged;
             Refresh();
         }
@@ -32,11 +32,11 @@ namespace VsTrello
         public override void Refresh()
         {
             base.Refresh();
-            ITrelloWrapper wrapper = Services.DefaultExportProvider.GetExportedValue<ITrelloWrapper>();
+            ITrelloWrapper wrapper = Scrubs.VisualStudio.Services.DefaultExportProvider.GetExportedValue<ITrelloWrapper>();
             if (wrapper.IsAuthenticated)
-                PageContent = Services.DefaultExportProvider.GetExportedValue<IPageComponent>("CardsList");
+                PageContent = Scrubs.VisualStudio.Services.DefaultExportProvider.GetExportedValue<IPageComponent>("CardsList");
             else
-                PageContent = Services.DefaultExportProvider.GetExportedValue<IPageComponent>("AuthNeededComponent");
+                PageContent = Scrubs.VisualStudio.Services.DefaultExportProvider.GetExportedValue<IPageComponent>("AuthNeededComponent");
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿namespace VsTrello
+﻿namespace VsTrello.ViewModels
 {
     public interface ICardsListViewModel
     {

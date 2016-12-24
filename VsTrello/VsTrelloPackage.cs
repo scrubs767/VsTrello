@@ -5,20 +5,18 @@
 //------------------------------------------------------------------------------
 
 using System;
-using System.ComponentModel.Design;
-using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
-using System.Globalization;
 using System.Runtime.InteropServices;
 using Microsoft.VisualStudio;
-using Microsoft.VisualStudio.OLE.Interop;
 using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;
-using Microsoft.Win32;
 using System.ComponentModel;
-using System.Windows.Forms;
 using System.Windows;
 using Scrubs.VisualStudio;
+using VsTrello.UI;
+using VsTrello.Services;
+using System.ComponentModel.Design;
+using VsTrello.ViewModels;
 
 namespace VsTrello
 {
@@ -36,7 +34,7 @@ namespace VsTrello
         protected override void OnActivate(CancelEventArgs e)
         {
             base.OnActivate(e);
-            packageSettings = Services.DefaultExportProvider.GetExportedValue<IPackageSettings>();
+            packageSettings = Scrubs.VisualStudio.Services.DefaultExportProvider.GetExportedValue<IPackageSettings>();
         }
 
         protected override void OnApply(PageApplyEventArgs args)
@@ -73,7 +71,11 @@ namespace VsTrello
     [SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1650:ElementDocumentationMustBeSpelledCorrectly", Justification = "pkgdef, VS and vsixmanifest are valid VS terms")]
     [ProvideAutoLoad(VSConstants.UICONTEXT.NoSolution_string)]
     [ProvideOptionPage(typeof(OptionPageCustom), "VsTrello", "General", 0, 0, true)]
-    public sealed class VsTrelloPackage : Package
+    [ProvideMenuResource("Menus.ctmenu", 1)]
+    [ProvideToolWindow(typeof(CardToolWindow))]
+    [ProvideService(typeof(SToolWindowManager))]
+
+    public sealed class VsTrelloPackage : Package, IToolWindowManager, SToolWindowManager
     {
         public static string AppName = "VsTrello";
         public static VsTrelloPackage Package;
@@ -88,9 +90,51 @@ namespace VsTrello
             // not sited yet inside Visual Studio environment. The place to do all the other
             // initialization is the Initialize method.
             Package = this;
+            IServiceContainer serviceContainer = this;
+            ServiceCreatorCallback creationCallback = CreateService;
+            serviceContainer.AddService(typeof(SToolWindowManager), creationCallback, true);
         }
 
-        
+        private object CreateService(IServiceContainer container, Type serviceType)
+        {
+            if (container != this)
+            {
+                return null;
+            }
+            if (typeof(SToolWindowManager) == serviceType)
+            {
+                return this;
+            }
+            return null;
+        }
+
+        public void OpenCardEditorWindow(CardViewModel vm)
+        {
+            ToolWindowPane windowPane = FindToolWindow(typeof(CardToolWindow), 0, true);
+            var control = windowPane.Content as CardToolWindowControl;
+            if (control != null)
+            {
+                var frame = windowPane.Frame as IVsWindowFrame;
+                if (frame != null)
+                {
+                    frame.Show();
+                }
+                if(control.DataContext != null && control.DataContext is IDisposable)
+                {
+                    ((IDisposable)control.DataContext).Dispose();
+                }
+                control.DataContext = vm;
+            }
+        }
+
+        public void ShowCardWindow()
+        {
+            CardToolWindow window = (CardToolWindow)VsTrelloPackage.Package.FindToolWindow(typeof(CardToolWindow), 0, true); // True means: crate if not found. 0 means there is only 1 instance of this tool window
+            if (null == window || null == window.Frame)
+                throw new NotSupportedException("CardToolWindow not found");
+            IVsWindowFrame windowFrame = (IVsWindowFrame)window.Frame;
+            ErrorHandler.ThrowOnFailure(windowFrame.Show());
+        }
 
         #region Package Members
 
@@ -101,7 +145,9 @@ namespace VsTrello
         protected override void Initialize()
         {
             base.Initialize();
-            Services.PackageServiceProvider = this;
+            Scrubs.VisualStudio.Services.PackageServiceProvider = this;
+
+            
         }
 
         #endregion

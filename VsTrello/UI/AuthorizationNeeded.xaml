@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="VsTrello.AuthorizationNeeded"
+﻿<UserControl x:Class="VsTrello.UI.AuthorizationNeeded"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 

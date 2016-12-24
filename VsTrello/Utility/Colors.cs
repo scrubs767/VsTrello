@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Media;
 
-namespace VsTrello
+namespace VsTrello.Utility
 {
     public class Colors : Scrubs.TeamExplorer.Colors
     {

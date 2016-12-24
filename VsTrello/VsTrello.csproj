@@ -51,19 +51,29 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="CardToolWindow.cs" />
+    <Compile Include="UI\CardToolWindowControl.xaml.cs">
+      <DependentUpon>CardToolWindowControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Services\IToolWindowManager.cs" />
+    <Compile Include="Services\SToolWindowManager.cs" />
     <Compile Include="UI\AuthorizationNeeded.xaml.cs">
       <DependentUpon>AuthorizationNeeded.xaml</DependentUpon>
     </Compile>
     <Compile Include="UI\CardList.xaml.cs">
       <DependentUpon>CardList.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UI\CardsListViewModel.cs" />
+    <Compile Include="UI\DebugConverter.cs" />
+    <Compile Include="UI\LaunchBrowserCommand.cs" />
+    <Compile Include="UI\TrelloColorConverter.cs" />
+    <Compile Include="ViewModels\CardsListViewModel.cs" />
     <Compile Include="Utility\Colors.cs" />
     <Compile Include="Guids.cs" />
     <Compile Include="IPageComponent.cs" />
     <Compile Include="IPackageSettings.cs" />
     <Compile Include="ITrelloWrapper.cs" />
-    <Compile Include="UI\ICardsListViewModel.cs" />
+    <Compile Include="ViewModels\CardViewModel.cs" />
+    <Compile Include="ViewModels\ICardsListViewModel.cs" />
     <Compile Include="UI\OptionsPageControl.xaml.cs">
       <DependentUpon>OptionsPageControl.xaml</DependentUpon>
     </Compile>
@@ -77,12 +87,14 @@
     <Compile Include="TrelloNavigationItem.cs" />
     <Compile Include="TrelloPage.cs" />
     <Compile Include="TrelloWrapper.cs" />
+    <Compile Include="ViewModels\ICardViewModel.cs" />
     <Compile Include="VsTrelloPackage.cs">
       <SubType>Component</SubType>
     </Compile>
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
+    <None Include="Build\ResetInstance.bat" />
     <None Include="Key.snk" />
     <None Include="packages.config" />
     <None Include="source.extension.vsixmanifest">
@@ -107,11 +119,11 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="Manatee.Trello, Version=0.0.0.0, Culture=neutral, PublicKeyToken=f502fcc17fc907d6, processorArchitecture=MSIL">
-      <HintPath>..\packages\Manatee.Trello.1.13.0\lib\net45\Manatee.Trello.dll</HintPath>
+      <HintPath>..\packages\Manatee.Trello.1.14.1\lib\net45\Manatee.Trello.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Manatee.Trello.ManateeJson, Version=0.0.0.0, Culture=neutral, PublicKeyToken=fbb8336f4f768592, processorArchitecture=MSIL">
-      <HintPath>..\packages\Manatee.Trello.ManateeJson.1.5.3\lib\net45\Manatee.Trello.ManateeJson.dll</HintPath>
+    <Reference Include="Manatee.Trello.ManateeJson, Version=1.0.0.0, Culture=neutral, PublicKeyToken=fbb8336f4f768592, processorArchitecture=MSIL">
+      <HintPath>..\packages\Manatee.Trello.ManateeJson.1.6.0\lib\net45\Manatee.Trello.ManateeJson.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Manatee.Trello.RestSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=783b036be1eaf5a7, processorArchitecture=MSIL">
@@ -119,7 +131,7 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="Manatee.Trello.WebApi, Version=1.0.0.0, Culture=neutral, PublicKeyToken=f7ae00e0424b8d0e, processorArchitecture=MSIL">
-      <HintPath>..\packages\Manatee.Trello.WebApi.1.0.4\lib\net45\Manatee.Trello.WebApi.dll</HintPath>
+      <HintPath>..\packages\Manatee.Trello.WebApi.1.0.6\lib\net45\Manatee.Trello.WebApi.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.Build.Framework" />
@@ -277,6 +289,7 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <IncludeInVSIX>true</IncludeInVSIX>
     </Content>
+    <Content Include="Resources\CardToolWindowCommand.png" />
     <Content Include="Resources\trello-mark-blue.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <IncludeInVSIX>true</IncludeInVSIX>
@@ -286,6 +299,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <IncludeInVSIX>true</IncludeInVSIX>
     </Content>
+    <VSCTCompile Include="VsTrelloPackage.vsct">
+      <ResourceName>Menus.ctmenu</ResourceName>
+    </VSCTCompile>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Properties\Resources.resx">
@@ -298,6 +314,10 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <Page Include="UI\CardToolWindowControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="UI\AuthorizationNeeded.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

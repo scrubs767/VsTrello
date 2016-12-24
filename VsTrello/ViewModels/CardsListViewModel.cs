@@ -9,22 +9,29 @@ using Manatee.Trello;
 using System.Windows.Input;
 using Scrubs.VisualStudio;
 using System.Diagnostics;
+using VsTrello.Services;
+using Microsoft.VisualStudio.Shell;
 
-namespace VsTrello
+namespace VsTrello.ViewModels
 {
     [Export(typeof(ICardsListViewModel))]
     public class CardsListViewModel : ViewModelBase, ICardsListViewModel
     {
         IPackageSettings _settings;
-
-        public CardsListViewModel()
+        IServiceProvider _serviceProvider;
+        [ImportingConstructor]
+        public CardsListViewModel([Import(typeof(SVsServiceProvider))] IServiceProvider serviceProvider)
         {
+            _serviceProvider = serviceProvider;
             SearchCommand = new RelayCommand(SearchExecute, CanSearchExecute);
             OpenCardCommand = new RelayCommand(OpenCardExecute, (_)=> { return true; });
             LaunchBroswerCommand = new RelayCommand(OpenBrowser, (_) => { return true; });
-            _settings = Services.DefaultExportProvider.GetExportedValue<IPackageSettings>();
+            _settings = Scrubs.VisualStudio.Services.DefaultExportProvider.GetExportedValue<IPackageSettings>();
             _searchString = _settings.LastSearch;
         }
+
+        private bool _IsProgressBarRunning = false;
+        public bool IsProgressBarRunning { get { return _IsProgressBarRunning; } set { _IsProgressBarRunning = value; RaisePropertyChanged(); } }
 
         private void OpenBrowser(object obj)
         {
@@ -37,7 +44,12 @@ namespace VsTrello
         {
             if(SelectedCard != null)
             {
-                Process.Start(SelectedCard.ShortUrl);
+                //Process.Start(SelectedCard.ShortUrl);
+                var toolWindowManager = _serviceProvider.GetService(typeof(SToolWindowManager)) as IToolWindowManager;
+                if (toolWindowManager != null)
+                {
+                    toolWindowManager.OpenCardEditorWindow(new CardViewModel(SelectedCard));
+                }
             }
         }
 
@@ -51,9 +63,11 @@ namespace VsTrello
 
         private async void SearchExecute(object obj)
         {
+            IsProgressBarRunning = true;
             _settings.LastSearch = _searchString;
             _settings.Save();
             Cards = await DoSearch(CardSearchString);
+            IsProgressBarRunning = false;
         }
 
         public ICommand SearchCommand { get; set; }
@@ -80,7 +94,7 @@ namespace VsTrello
         }
         public static Task<IEnumerable<Card>> DoSearch(string terms)
         {
-            return Task.Run(() =>
+            return System.Threading.Tasks.Task.Run(() =>
             {
                 return new Search(terms, 50, SearchModelType.Cards).Cards;
             });
