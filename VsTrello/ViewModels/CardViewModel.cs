@@ -85,8 +85,60 @@ namespace VsTrello.ViewModels
                 if (!ShowDetails) return null;
                 return new SimpleAction() { Text = "was removed from the card.", Creator = action.Creator.ToString(), Date = action.Date, MemberImage = action.Creator.AvatarUrl };
             }
+
+
+
+            else if (action.Type == ActionType.CreateCard)
+            {
+                if (!ShowDetails) return null;
+                return new SimpleAction() { Text = $"added this card to {action.Data.List}.", Creator = action.Creator.ToString(), Date = action.Date, MemberImage = action.Creator.AvatarUrl };
+            }
+
+            else if (action.Type == ActionType.UpdateCheckItemStateOnCard)
+            {
+                if (!ShowDetails) return null;
+                //var a = action.Data.Attachment;
+                //var b = action.Data.Board;
+                //var c = action.Data.BoardSource;
+                //var d = action.Data.BoardTarget;
+                //var e = action.Data.Card;
+                //var f = action.Data.CardSource;
+                //var g = action.Data.CheckItem;
+
+                //var h = action.Data.CheckList;
+                //var i = action.Data.LastEdited;
+                //var j = action.Data.List;
+                //var k = action.Data.ListAfter;
+                //var l = action.Data.ListBefore;
+
+                //var m = action.Data.Member;
+                //var n = action.Data.OldDescription;
+                //var o = action.Data.OldList;
+                //var p = action.Data.OldPosition;
+                //var q = action.Data.OldText;
+
+                //var r = action.Data.Organization;
+                //var s = action.Data.Text;
+                //var t = action.Data.Value;
+                //var u = action.Data.WasArchived;
+
+                return new SimpleAction() { Text = $"{action.Data.CheckItem.State} {action.Data.CheckItem.Name}", Creator = action.Creator.ToString(), Date = action.Date, MemberImage = action.Creator.AvatarUrl };
+            }
+            else if (action.Type == ActionType.AddChecklistToCard)
+            {
+                if (!ShowDetails) return null;
+                return new SimpleAction() { Text = $"added {action.Data.CheckList} to this card.", Creator = action.Creator.ToString(), Date = action.Date, MemberImage = action.Creator.AvatarUrl };
+            }
+            else if(action.Type == ActionType.DeleteAttachmentFromCard)
+            {
+                if (!ShowDetails) return null;
+                return new SimpleAction() { Text = $"deleted {action.Data.Attachment} from this card.", Creator = action.Creator.ToString(), Date = action.Date, MemberImage = action.Creator.AvatarUrl };
+            }
             else
+            {
+                System.Diagnostics.Trace.WriteLine($"###### {action.Type.ToString()} Not found.");
                 return null;
+            }
         }
 
         #region IDisposable Support

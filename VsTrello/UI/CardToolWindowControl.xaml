@@ -44,7 +44,7 @@
                         </StackPanel>
                     </DataTemplate>
                     <DataTemplate DataType="{x:Type vm:SimpleAction}">
-                        <Border BorderThickness="1" Background="White" BorderBrush="{DynamicResource ItemBorderBrushKey}" CornerRadius="5" Padding="2" Visibility="{Binding Visible, Converter={StaticResource BooleanToVisibilityConverter}}">
+                        <Border BorderThickness="1" Background="White" BorderBrush="{DynamicResource ItemBorderBrushKey}" CornerRadius="5" Padding="2">
                             <Grid>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="Auto"/>
@@ -52,7 +52,7 @@
                                     <ColumnDefinition Width="*"/>
                                     <ColumnDefinition Width="Auto"/>
                                 </Grid.ColumnDefinitions>
-                                <Image Grid.Column="0" Height="24" Width="24" Margin="5" Source="{Binding MemberImage}" />
+                                <Image Grid.Column="0" Height="24" Width="24" Margin="5,0,5,0" Source="{Binding MemberImage}" />
                                 <TextBlock Grid.Column="1" Text="{Binding Creator}" FontWeight="Bold"  />
                                 <TextBlock Grid.Column="2" Text="{Binding Text }" Margin="5,0,5,0"/>
                                 <TextBlock Grid.Column="3" Text="{Binding Date }" />
@@ -82,6 +82,8 @@
                 <TextBlock Text="in list"/>
                 <TextBlock  Text="{Binding Card.List}"/>
             </WrapPanel>
+            <TextBlock Text="Description" FontWeight="Bold" Margin="5,10,0,10"/>
+            <TextBlock Text="{Binding Card.Description}" TextWrapping="Wrap"/>
         </StackPanel>
         <Grid Grid.Row="1"  Margin="5,5,0,20">
             <Grid.ColumnDefinitions>
@@ -92,8 +94,8 @@
                 <RowDefinition/>
                 <RowDefinition/>
             </Grid.RowDefinitions>
-            <TextBlock Text="Members" Grid.Column="0" Grid.Row="0"/>
-            <TextBlock Text="Labels" Grid.Column="1" Grid.Row="0"/>
+            <TextBlock Text="Members" FontWeight="Bold" Grid.Column="0" Grid.Row="0"/>
+            <TextBlock Text="Labels" FontWeight="Bold" Grid.Column="1" Grid.Row="0"/>
             <ItemsControl Margin="5" Grid.Column="0" Grid.Row="1" ItemsSource="{Binding Card.Members}">
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
@@ -115,8 +117,8 @@
                 </ItemsControl.ItemsPanel>
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
-                        <Border Background="{Binding Color, Converter={StaticResource TrelloColorConverter}}"  CornerRadius="5">
-                            <TextBlock Margin="5" Text="{Binding Name}" Background="{Binding Color, Converter={StaticResource TrelloColorConverter}}" Foreground="White" FontWeight="Bold"/>
+                        <Border Background="{Binding Color, Converter={StaticResource TrelloColorConverter}}" Margin="5,0,0,0" CornerRadius="5">
+                            <TextBlock Margin="5" MinWidth="50" Text="{Binding Name}" Background="{Binding Color, Converter={StaticResource TrelloColorConverter}}" Foreground="White" FontWeight="Bold"/>
                         </Border>
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
