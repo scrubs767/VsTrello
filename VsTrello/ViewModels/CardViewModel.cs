@@ -18,12 +18,14 @@ namespace VsTrello.ViewModels
             _settings = Scrubs.VisualStudio.Services.DefaultExportProvider.GetExportedValue<IPackageSettings>();
             Card = card;
             Card.Updated += Card_Updated;
+            Title = $"VsTrello - {Card.Name}";
             //ShowDetails = true;
         }
 
         private void Card_Updated(Card arg1, IEnumerable<string> arg2)
         {
             RaisePropertyChanged("Card");
+            RaisePropertyChanged("Actions");
         }
 
         public bool ShowDetails //{ get; set; }
@@ -54,6 +56,9 @@ namespace VsTrello.ViewModels
                 return new System.Collections.ObjectModel.ReadOnlyCollection<IAction>(actions.OrderByDescending(a=>a.Date).ToList());
             }
         }
+
+        public string Title { get; internal set; }
+
         private IAction getAction(Manatee.Trello.Action action)
         {
 

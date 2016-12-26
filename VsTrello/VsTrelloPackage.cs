@@ -111,6 +111,7 @@ namespace VsTrello
         public void OpenCardEditorWindow(CardViewModel vm)
         {
             ToolWindowPane windowPane = FindToolWindow(typeof(CardToolWindow), 0, true);
+            windowPane.Caption = vm.Title;
             var control = windowPane.Content as CardToolWindowControl;
             if (control != null)
             {
