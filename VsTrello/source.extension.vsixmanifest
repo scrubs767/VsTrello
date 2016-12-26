@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <PackageManifest Version="2.0.0" xmlns="http://schemas.microsoft.com/developer/vsx-schema/2011" xmlns:d="http://schemas.microsoft.com/developer/vsx-schema-design/2011">
   <Metadata>
-    <Identity Id="VsTrello.Steve Przepiora.566f2d2f-1072-47b9-a9f0-dbfb0e11086f" Version="0.2.0" Language="en-US" Publisher="Steve Przepiora" />
+    <Identity Id="VsTrello.Steve Przepiora.566f2d2f-1072-47b9-a9f0-dbfb0e11086f" Version="0.2.1" Language="en-US" Publisher="Steve Przepiora" />
     <DisplayName>VsTrello</DisplayName>
     <Description xml:space="preserve">A Team Explorer extension to allow you to view your Trello cards.</Description>
     <License>Documentation\License.txt</License>
