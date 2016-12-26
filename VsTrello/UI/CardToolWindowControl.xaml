@@ -24,7 +24,7 @@
                     <ui:DebugConverter x:Key="DebugConverter"/>
                     <DataTemplate DataType="{x:Type vm:Comment}">
                         <StackPanel>
-                            <Border BorderThickness="1" Background="White" BorderBrush="{DynamicResource ItemBorderBrushKey}" CornerRadius="5" Padding="2" HorizontalAlignment="Stretch">
+                            <Border BorderThickness="1"  Margin="0,0,0,7" BorderBrush="{DynamicResource SubduedBorderBrushKey}" CornerRadius="6" Padding="2" HorizontalAlignment="Stretch">
                                 <Grid>
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="Auto"/>
@@ -36,15 +36,15 @@
                                         <RowDefinition/>
                                     </Grid.RowDefinitions>
                                     <Image Grid.Row="0" Grid.Column="0" Height="24" Width="24" Margin="5,0,5,0" Source="{Binding MemberImage}" />
-                                    <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding Creator}" FontWeight="Bold" />
-                                    <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding Text }" TextWrapping="Wrap" />
-                                    <TextBlock Grid.Row="2" Grid.Column="1" Text="{Binding Date }" />
+                                    <TextBlock Grid.Row="0" Grid.Column="1"  Text="{Binding Creator}" FontWeight="Bold" />
+                                    <TextBlock Grid.Row="1" Grid.Column="1"  Text="{Binding Text }" TextWrapping="Wrap" />
+                                    <TextBlock Grid.Row="2" Grid.Column="1"  Text="{Binding Date }" />
                                 </Grid>
                             </Border>
                         </StackPanel>
                     </DataTemplate>
                     <DataTemplate DataType="{x:Type vm:SimpleAction}">
-                        <Border BorderThickness="1" Background="White" BorderBrush="{DynamicResource ItemBorderBrushKey}" CornerRadius="5" Padding="2">
+                        <Border BorderThickness="1"  Margin="0,0,0,7" BorderBrush="{DynamicResource SubduedBorderBrushKey}" CornerRadius="6" Padding="2">
                             <Grid>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="Auto"/>
@@ -53,9 +53,9 @@
                                     <ColumnDefinition Width="Auto"/>
                                 </Grid.ColumnDefinitions>
                                 <Image Grid.Column="0" Height="24" Width="24" Margin="5,0,5,0" Source="{Binding MemberImage}" />
-                                <TextBlock Grid.Column="1" Text="{Binding Creator}" FontWeight="Bold"  />
-                                <TextBlock Grid.Column="2" Text="{Binding Text }" Margin="5,0,5,0"/>
-                                <TextBlock Grid.Column="3" Text="{Binding Date }" />
+                                <TextBlock Grid.Column="1" Text="{Binding Creator}"  FontWeight="Bold"  />
+                                <TextBlock Grid.Column="2" Text="{Binding Text }"    Margin="5,0,5,0"/>
+                                <TextBlock Grid.Column="3" Text="{Binding Date }"   />
                             </Grid>
                         </Border>
                     </DataTemplate>
@@ -63,6 +63,7 @@
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </UserControl.Resources>
+    <ScrollViewer>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
@@ -146,8 +147,8 @@
             <TextBlock Grid.Column="0" Margin="5,0,0,0" FontSize="18" FontWeight="Bold">Actions</TextBlock>
             <CheckBox Grid.Column="1" IsChecked="{Binding ShowDetails, Mode=TwoWay}">Show Details</CheckBox>
         </Grid>
-        <ListView Grid.Row="5" Margin="5,0,0,0" ItemsSource="{Binding Actions}" ScrollViewer.HorizontalScrollBarVisibility="Disabled" HorizontalContentAlignment="Stretch">
-            <ListView.ItemContainerStyle>
+            <ItemsControl Grid.Row="5" Margin="5,0,0,0" ItemsSource="{Binding Actions}" ScrollViewer.HorizontalScrollBarVisibility="Disabled" HorizontalContentAlignment="Stretch">
+                <!--<ItemsControl.ItemContainerStyle>
                 <Style TargetType="{x:Type ListViewItem}">
                     <Setter Property="Background" Value="Transparent" />
                     <Setter Property="Template">
@@ -158,7 +159,8 @@
                         </Setter.Value>
                     </Setter>
                 </Style>
-            </ListView.ItemContainerStyle>
-        </ListView>
+            </ItemsControl.ItemContainerStyle>-->
+        </ItemsControl>
     </Grid>
+    </ScrollViewer>
 </UserControl>
