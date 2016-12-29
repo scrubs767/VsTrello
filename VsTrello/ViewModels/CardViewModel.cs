@@ -64,31 +64,31 @@ namespace VsTrello.ViewModels
 
             if (action.Type == ActionType.CommentCard)
             {
-                return new Comment() { Text = action.Data.Text, Creator = action.Creator.ToString(), Date = action.Date, MemberImage = action.Creator.AvatarUrl };
+                return new Comment() { Text = action.Data.Text, Creator = action.Creator.ToString(), Date = action.Date, MemberImage = action.Creator.AvatarUrl, Initials = action.Creator.Initials };
             }
             else if (action.Type == ActionType.UpdateCard)
             {
                 if (!ShowDetails) return null;
                 //return new Update(action.Data) { Creator = action.Creator.ToString(), Date = action.Date, MemberImage = action.Creator.AvatarUrl };
                 if (action.Data?.ListBefore != null)
-                    return new SimpleAction() { Text = $"moved this card from {action.Data.ListBefore.Name} to {action.Data.ListAfter.Name}", Creator = action.Creator.ToString(), Date = action.Date, MemberImage = action.Creator.AvatarUrl };
+                    return new SimpleAction() { Text = $"moved this card from {action.Data.ListBefore.Name} to {action.Data.ListAfter.Name}", Creator = action.Creator.ToString(), Date = action.Date, MemberImage = action.Creator.AvatarUrl, Initials = action.Creator.Initials };
                 return null;
             }
             else if (action.Type == ActionType.AddAttachmentToCard)
             {
                 if (!ShowDetails) return null;
-                return new SimpleAction() { Text = $"attached {action.Data.Attachment} to this card.", Creator = action.Creator.ToString(), Date = action.Date, MemberImage = action.Creator.AvatarUrl };
+                return new SimpleAction() { Text = $"attached {action.Data.Attachment} to this card.", Creator = action.Creator.ToString(), Date = action.Date, MemberImage = action.Creator.AvatarUrl, Initials = action.Creator.Initials };
             }
 
             else if (action.Type == ActionType.AddMemberToCard)
             {
                 if (!ShowDetails) return null;
-                return new SimpleAction() { Text = "was added to the card.", Creator = action.Creator.ToString(), Date = action.Date, MemberImage = action.Creator.AvatarUrl };
+                return new SimpleAction() { Text = "was added to the card.", Creator = action.Creator.ToString(), Date = action.Date, MemberImage = action.Creator.AvatarUrl, Initials = action.Creator.Initials };
             }
             else if (action.Type == ActionType.RemoveMemberFromCard)
             {
                 if (!ShowDetails) return null;
-                return new SimpleAction() { Text = "was removed from the card.", Creator = action.Creator.ToString(), Date = action.Date, MemberImage = action.Creator.AvatarUrl };
+                return new SimpleAction() { Text = "was removed from the card.", Creator = action.Creator.ToString(), Date = action.Date, MemberImage = action.Creator.AvatarUrl, Initials = action.Creator.Initials };
             }
 
 
@@ -96,7 +96,7 @@ namespace VsTrello.ViewModels
             else if (action.Type == ActionType.CreateCard)
             {
                 if (!ShowDetails) return null;
-                return new SimpleAction() { Text = $"added this card to {action.Data.List}.", Creator = action.Creator.ToString(), Date = action.Date, MemberImage = action.Creator.AvatarUrl };
+                return new SimpleAction() { Text = $"added this card to {action.Data.List}.", Creator = action.Creator.ToString(), Date = action.Date, MemberImage = action.Creator.AvatarUrl, Initials = action.Creator.Initials };
             }
 
             else if (action.Type == ActionType.UpdateCheckItemStateOnCard)
@@ -127,17 +127,17 @@ namespace VsTrello.ViewModels
                 //var t = action.Data.Value;
                 //var u = action.Data.WasArchived;
 
-                return new SimpleAction() { Text = $"{action.Data.CheckItem.State} {action.Data.CheckItem.Name}", Creator = action.Creator.ToString(), Date = action.Date, MemberImage = action.Creator.AvatarUrl };
+                return new SimpleAction() { Text = $"{action.Data.CheckItem.State} {action.Data.CheckItem.Name}", Creator = action.Creator.ToString(), Date = action.Date, MemberImage = action.Creator.AvatarUrl, Initials = action.Creator.Initials };
             }
             else if (action.Type == ActionType.AddChecklistToCard)
             {
                 if (!ShowDetails) return null;
-                return new SimpleAction() { Text = $"added {action.Data.CheckList} to this card.", Creator = action.Creator.ToString(), Date = action.Date, MemberImage = action.Creator.AvatarUrl };
+                return new SimpleAction() { Text = $"added {action.Data.CheckList} to this card.", Creator = action.Creator.ToString(), Date = action.Date, MemberImage = action.Creator.AvatarUrl, Initials = action.Creator.Initials };
             }
             else if(action.Type == ActionType.DeleteAttachmentFromCard)
             {
                 if (!ShowDetails) return null;
-                return new SimpleAction() { Text = $"deleted {action.Data.Attachment} from this card.", Creator = action.Creator.ToString(), Date = action.Date, MemberImage = action.Creator.AvatarUrl };
+                return new SimpleAction() { Text = $"deleted {action.Data.Attachment} from this card.", Creator = action.Creator.ToString(), Date = action.Date, MemberImage = action.Creator.AvatarUrl, Initials = action.Creator.Initials };
             }
             else
             {
@@ -188,6 +188,7 @@ namespace VsTrello.ViewModels
         public DateTime? Date { get; set; }
         public string Creator { get; set; }
         public string MemberImage { get; set; }
+        public string Initials { get; set; }
     }
 
     public class Attachment : NotifiableObject, IAction
@@ -196,6 +197,7 @@ namespace VsTrello.ViewModels
         public DateTime? Date { get; set; }
         public string Creator { get; set; }
         public string MemberImage { get; set; }
+        public string Initials { get; set; }
     }
 
     public class SimpleAction : NotifiableObject, IAction
@@ -204,6 +206,7 @@ namespace VsTrello.ViewModels
         public DateTime? Date { get; set; }
         public string Creator { get; set; }
         public string MemberImage { get; set; }
+        public string Initials { get; set; }
     }
     
     public interface IAction
@@ -212,5 +215,6 @@ namespace VsTrello.ViewModels
         DateTime? Date { get; }
         string Creator { get; }
         string MemberImage { get; set; }
+        string Initials { get; set; }
     }
 }

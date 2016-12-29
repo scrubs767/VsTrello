@@ -35,13 +35,22 @@
                                         <RowDefinition/>
                                         <RowDefinition/>
                                     </Grid.RowDefinitions>
-                                    <Image Grid.Row="0" Grid.Column="0" Height="24" Width="24" Margin="5,0,5,0" Source="{Binding MemberImage}" />
+                                    <Image x:Name="Avatar" Grid.Row="0" Grid.Column="0" Height="24" Width="24" Margin="5,0,5,0" Source="{Binding MemberImage}" />
+                                    <Border x:Name="AltAvatar" CornerRadius="3" BorderThickness="1" Background="Gray" Height="24" Width="24" Visibility="Collapsed" Margin="5,0,5,0">
+                                        <TextBlock Text="{Binding Initials}"  Foreground="Black" HorizontalAlignment="Center" TextAlignment="Center" VerticalAlignment="Center" FontWeight="Bold" FontSize="12" FontFamily="Arial"/>
+                                    </Border>
                                     <TextBlock Grid.Row="0" Grid.Column="1"  Text="{Binding Creator}" FontWeight="Bold" />
                                     <TextBlock Grid.Row="1" Grid.Column="1"  Text="{Binding Text }" TextWrapping="Wrap" />
                                     <TextBlock Grid.Row="2" Grid.Column="1"  Text="{Binding Date }" />
                                 </Grid>
                             </Border>
                         </StackPanel>
+                        <DataTemplate.Triggers>
+                            <DataTrigger Binding="{Binding MemberImage}" Value="{x:Null}">
+                                <Setter TargetName="Avatar" Property="Visibility" Value="Collapsed" />
+                                <Setter TargetName="AltAvatar" Property="Visibility" Value="Visible" />
+                            </DataTrigger>
+                        </DataTemplate.Triggers>
                     </DataTemplate>
                     <DataTemplate DataType="{x:Type vm:SimpleAction}">
                         <Border BorderThickness="1"  Margin="0,0,0,7" BorderBrush="{DynamicResource SubduedBorderBrushKey}" CornerRadius="6" Padding="2">
@@ -52,101 +61,121 @@
                                     <ColumnDefinition Width="*"/>
                                     <ColumnDefinition Width="Auto"/>
                                 </Grid.ColumnDefinitions>
-                                <Image Grid.Column="0" Height="24" Width="24" Margin="5,0,5,0" Source="{Binding MemberImage}" />
+                                <Image x:Name="Avatar" Grid.Column="0" Height="24" Width="24" Margin="5,0,5,0" Source="{Binding MemberImage}" />
+                                <Border x:Name="AltAvatar" CornerRadius="3" BorderThickness="1" Background="Gray" Height="24" Width="24" Visibility="Collapsed" Margin="5,0,5,0">
+                                    <TextBlock  Text="{Binding Initials}" FontFamily="Arial" Foreground="Black" HorizontalAlignment="Center" TextAlignment="Center" VerticalAlignment="Center" FontWeight="Bold" FontSize="12"/>
+                                </Border>
                                 <TextBlock Grid.Column="1" Text="{Binding Creator}"  FontWeight="Bold"  />
                                 <TextBlock Grid.Column="2" Text="{Binding Text }"    Margin="5,0,5,0"/>
                                 <TextBlock Grid.Column="3" Text="{Binding Date }"   />
                             </Grid>
                         </Border>
+                        <DataTemplate.Triggers>
+                            <DataTrigger Binding="{Binding MemberImage}" Value="{x:Null}">
+                                <Setter TargetName="Avatar" Property="Visibility" Value="Collapsed" />
+                                <Setter TargetName="AltAvatar" Property="Visibility" Value="Visible" />
+                            </DataTrigger>
+                        </DataTemplate.Triggers>
                     </DataTemplate>
                 </ResourceDictionary>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </UserControl.Resources>
     <ScrollViewer>
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="*"/>
-        </Grid.RowDefinitions>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="3*"/>
-            <ColumnDefinition Width="1*"/>
-        </Grid.ColumnDefinitions>
-        <StackPanel Grid.Row="0" Margin="5,5,0,20">
-            <TextBlock  FontSize="18" FontWeight="Bold" Text="{Binding Card.Name}"/>
-            <WrapPanel>
-                <TextBlock Text="in list"/>
-                <TextBlock  Text="{Binding Card.List}"/>
-            </WrapPanel>
-            <TextBlock Text="Description" FontWeight="Bold" Margin="5,10,0,10"/>
-            <TextBlock Text="{Binding Card.Description}" TextWrapping="Wrap"/>
-        </StackPanel>
-        <Grid Grid.Row="1"  Margin="5,5,0,20">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="3*"/>
                 <ColumnDefinition Width="1*"/>
             </Grid.ColumnDefinitions>
-            <Grid.RowDefinitions>
-                <RowDefinition/>
-                <RowDefinition/>
-            </Grid.RowDefinitions>
-            <TextBlock Text="Members" FontWeight="Bold" Grid.Column="0" Grid.Row="0"/>
-            <TextBlock Text="Labels" FontWeight="Bold" Grid.Column="1" Grid.Row="0"/>
-            <ItemsControl Margin="5" Grid.Column="0" Grid.Row="1" ItemsSource="{Binding Card.Members}">
-                <ItemsControl.ItemsPanel>
-                    <ItemsPanelTemplate>
-                        <WrapPanel />
-                    </ItemsPanelTemplate>
-                </ItemsControl.ItemsPanel>
-                <ItemsControl.ItemTemplate>
-                    <DataTemplate>
-                        <Image Height="30" Width="30" Margin="0,0,2,0" Source="{Binding AvatarUrl, diag:PresentationTraceSources.TraceLevel=High}"/>
-                    </DataTemplate>
-                </ItemsControl.ItemTemplate>
-            </ItemsControl>
+            <StackPanel Grid.Row="0" Margin="5,5,0,20">
+                <TextBlock  FontSize="18" FontWeight="Bold" Text="{Binding Card.Name}"/>
+                <WrapPanel>
+                    <TextBlock Text="in list"/>
+                    <TextBlock  Text="{Binding Card.List}"/>
+                </WrapPanel>
+                <TextBlock Text="Description" FontWeight="Bold" Margin="5,10,0,10"/>
+                <TextBlock Text="{Binding Card.Description}" TextWrapping="Wrap"/>
+            </StackPanel>
+            <Grid Grid.Row="1"  Margin="5,5,0,20">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="1*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <TextBlock Text="Members" FontWeight="Bold" Grid.Column="0" Grid.Row="0"/>
+                <TextBlock Text="Labels" FontWeight="Bold" Grid.Column="1" Grid.Row="0"/>
+                <ItemsControl Margin="5" Grid.Column="0" Grid.Row="1" ItemsSource="{Binding Card.Members}">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <WrapPanel />
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel>
+                                <Image x:Name="Avatar" Height="30" Width="30" Margin="0,0,2,0" Source="{Binding AvatarUrl}"/>
+                                <Border x:Name="AltAvatar" CornerRadius="3" BorderThickness="1" Background="Gray" Height="30" Width="30" Visibility="Collapsed" >
+                                    <TextBlock  Margin="0,0,2,0" FontFamily="Arial" Text="{Binding Initials}"  Foreground="Black" HorizontalAlignment="Center" TextAlignment="Center" VerticalAlignment="Center" FontWeight="Bold" FontSize="13"/>
+                                </Border>
+                            </StackPanel>
+                            <DataTemplate.Triggers>
+                                <DataTrigger Binding="{Binding AvatarUrl}" Value="{x:Null}">
+                                    <Setter TargetName="Avatar" Property="Visibility" Value="Collapsed" />
+                                    <Setter TargetName="AltAvatar" Property="Visibility" Value="Visible" />
+                                </DataTrigger>
+                            </DataTemplate.Triggers>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
 
-            <ItemsControl Margin="5" Grid.Column="1" Grid.Row="1" ItemsSource="{Binding Card.Labels}">
-                <ItemsControl.ItemsPanel>
-                    <ItemsPanelTemplate>
-                        <WrapPanel />
-                    </ItemsPanelTemplate>
-                </ItemsControl.ItemsPanel>
+                <ItemsControl Margin="5" Grid.Column="1" Grid.Row="1" ItemsSource="{Binding Card.Labels}">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <WrapPanel />
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Border Background="{Binding Color, Converter={StaticResource TrelloColorConverter}}" Margin="5,0,0,0" CornerRadius="5">
+                                <TextBlock Margin="5" MinWidth="50" Text="{Binding Name}" Background="{Binding Color, Converter={StaticResource TrelloColorConverter}}" Foreground="White" FontWeight="Bold"/>
+                            </Border>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </Grid>
+            <TextBlock Grid.Row="2"  Margin="5,0,0,0" FontSize="18" FontWeight="Bold">Attachments</TextBlock>
+            <ItemsControl Grid.Row="3" Margin="5,0,0,20" ItemsSource="{Binding Card.Attachments}" ScrollViewer.HorizontalScrollBarVisibility="Disabled" HorizontalContentAlignment="Stretch">
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
-                        <Border Background="{Binding Color, Converter={StaticResource TrelloColorConverter}}" Margin="5,0,0,0" CornerRadius="5">
-                            <TextBlock Margin="5" MinWidth="50" Text="{Binding Name}" Background="{Binding Color, Converter={StaticResource TrelloColorConverter}}" Foreground="White" FontWeight="Bold"/>
-                        </Border>
-                    </DataTemplate>
-                </ItemsControl.ItemTemplate>
-            </ItemsControl>
-        </Grid>
-        <TextBlock Grid.Row="2"  Margin="5,0,0,0" FontSize="18" FontWeight="Bold">Attachments</TextBlock>
-        <ItemsControl Grid.Row="3" Margin="5,0,0,20" ItemsSource="{Binding Card.Attachments}" ScrollViewer.HorizontalScrollBarVisibility="Disabled" HorizontalContentAlignment="Stretch">
-            <ItemsControl.ItemTemplate>
-                <DataTemplate>
-                    <TextBlock Grid.Row="1">
+                        <TextBlock Grid.Row="1">
                     <Hyperlink Command="{StaticResource LaunchBrowserCommand}" CommandParameter="{Binding Url}">
                         <Hyperlink.Inlines>
                             <Run Text="{Binding Name, Mode=OneWay}" />
                         </Hyperlink.Inlines>
                     </Hyperlink>
-                    </TextBlock>
-                </DataTemplate>
-            </ItemsControl.ItemTemplate>
-        </ItemsControl>
-        <Grid Grid.Row="4">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="Auto"/>
-            </Grid.ColumnDefinitions>
-            <TextBlock Grid.Column="0" Margin="5,0,0,0" FontSize="18" FontWeight="Bold">Actions</TextBlock>
-            <CheckBox Grid.Column="1" IsChecked="{Binding ShowDetails, Mode=TwoWay}">Show Details</CheckBox>
-        </Grid>
+                        </TextBlock>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+            <Grid Grid.Row="4">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Grid.Column="0" Margin="5,0,0,0" FontSize="18" FontWeight="Bold">Actions</TextBlock>
+                <CheckBox Grid.Column="1" IsChecked="{Binding ShowDetails, Mode=TwoWay}">Show Details</CheckBox>
+            </Grid>
             <ItemsControl Grid.Row="5" Margin="5,0,0,0" ItemsSource="{Binding Actions}" ScrollViewer.HorizontalScrollBarVisibility="Disabled" HorizontalContentAlignment="Stretch">
                 <!--<ItemsControl.ItemContainerStyle>
                 <Style TargetType="{x:Type ListViewItem}">
@@ -160,7 +189,7 @@
                     </Setter>
                 </Style>
             </ItemsControl.ItemContainerStyle>-->
-        </ItemsControl>
-    </Grid>
+            </ItemsControl>
+        </Grid>
     </ScrollViewer>
 </UserControl>
