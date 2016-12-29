@@ -8,6 +8,7 @@
              xmlns:ui="clr-namespace:VsTrello.UI"
              xmlns:diag="clr-namespace:System.Diagnostics;assembly=WindowsBase"
              xmlns:mwc="clr-namespace:Scrubs.MvvmWeak.Converters;assembly=Scrubs.MvvmWeak"
+             xmlns:mx="clr-namespace:Markdown.Xaml"
              Background="{DynamicResource VsBrush.Window}"
              Foreground="{DynamicResource VsBrush.WindowText}"
              mc:Ignorable="d"
@@ -17,11 +18,36 @@
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="/VsTrello;component/Resources/Dictionary.xaml" />
+                <ResourceDictionary Source="/VsTrello;component/Markdown/Markdown.Demo.Styles.Default.xaml" />
                 <ResourceDictionary>
                     <mwc:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
                     <ui:TrelloColorConverter x:Key="TrelloColorConverter"/>
                     <ui:LaunchBrowserCommand x:Key="LaunchBrowserCommand" />
                     <ui:DebugConverter x:Key="DebugConverter"/>
+                    <Style TargetType="Button" x:Key="FlatButtonStyle">
+                        <Setter Property="Height" Value="25"/>
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="Button">
+                                    <Border BorderThickness="0"
+                                            Background="{TemplateBinding Background}"
+                                            CornerRadius="3">
+                                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                    </Border>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                    <mx:Markdown x:Key="Markdown"
+                        DocumentStyle="{StaticResource DocumentStyle}"
+                        Heading1Style="{StaticResource H1Style}"
+                        Heading2Style="{StaticResource H2Style}"
+                        Heading3Style="{StaticResource H3Style}"
+                        Heading4Style="{StaticResource H4Style}"
+                        LinkStyle="{StaticResource LinkStyle}"
+                        ImageStyle="{StaticResource ImageStyle}"
+                        SeparatorStyle="{StaticResource SeparatorStyle}"/>
+                    <mx:TextToFlowDocumentConverter x:Key="TextToFlowDocumentConverter" Markdown="{StaticResource Markdown}"/>
                     <DataTemplate DataType="{x:Type vm:Comment}">
                         <StackPanel>
                             <Border BorderThickness="1"  Margin="0,0,0,7" BorderBrush="{DynamicResource SubduedBorderBrushKey}" CornerRadius="6" Padding="2" HorizontalAlignment="Stretch">
@@ -40,7 +66,14 @@
                                         <TextBlock Text="{Binding Initials}"  Foreground="Black" HorizontalAlignment="Center" TextAlignment="Center" VerticalAlignment="Center" FontWeight="Bold" FontSize="12" FontFamily="Arial"/>
                                     </Border>
                                     <TextBlock Grid.Row="0" Grid.Column="1"  Text="{Binding Creator}" FontWeight="Bold" />
-                                    <TextBlock Grid.Row="1" Grid.Column="1"  Text="{Binding Text }" TextWrapping="Wrap" />
+                                    <!--<TextBlock Grid.Row="1" Grid.Column="1"  Text="{Binding Text }" TextWrapping="Wrap" />-->
+                                    <FlowDocumentScrollViewer Grid.Row="1"
+                                      Grid.Column="1"
+                                      VerticalAlignment="Stretch"
+                                      HorizontalAlignment="Stretch"
+                                      Margin="5"
+                                      ScrollViewer.VerticalScrollBarVisibility="Hidden"
+                                      Document="{Binding Text, Converter={StaticResource TextToFlowDocumentConverter}}" />
                                     <TextBlock Grid.Row="2" Grid.Column="1"  Text="{Binding Date }" />
                                 </Grid>
                             </Border>
@@ -77,20 +110,7 @@
                             </DataTrigger>
                         </DataTemplate.Triggers>
                     </DataTemplate>
-                    <Style TargetType="Button" x:Key="FlatButtonStyle">
-                        <Setter Property="Height" Value="25"/>
-                        <Setter Property="Template">
-                            <Setter.Value>
-                                <ControlTemplate TargetType="Button">
-                                    <Border BorderThickness="0"
-                                            Background="{TemplateBinding Background}"
-                                            CornerRadius="3">
-                                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                    </Border>
-                                </ControlTemplate>
-                            </Setter.Value>
-                        </Setter>
-                    </Style>
+                    
                 </ResourceDictionary>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>

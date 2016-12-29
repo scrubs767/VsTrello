@@ -52,6 +52,8 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="CardToolWindow.cs" />
+    <Compile Include="Markdown\Markdown.cs" />
+    <Compile Include="Markdown\TextToFlowDocumentConverter.cs" />
     <Compile Include="UI\CardToolWindowControl.xaml.cs">
       <DependentUpon>CardToolWindowControl.xaml</DependentUpon>
     </Compile>
@@ -314,6 +316,11 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <Page Include="Markdown\Markdown.Demo.Styles.Default.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Page>
     <Page Include="UI\CardToolWindowControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
