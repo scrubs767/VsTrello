@@ -7,6 +7,7 @@ using Manatee.Trello;
 using System.Collections.ObjectModel;
 using Scrubs.MvvmWeak;
 using System.Diagnostics;
+using System.Windows.Input;
 
 namespace VsTrello.ViewModels
 {
@@ -19,7 +20,14 @@ namespace VsTrello.ViewModels
             Card = card;
             Card.Updated += Card_Updated;
             Title = $"VsTrello - {Card.Name}";
+            LaunchBroswerCommand = new RelayCommand(OpenBrowser, (_) => { return true; });
             //ShowDetails = true;
+        }
+
+        public ICommand LaunchBroswerCommand { get; set; }
+        private void OpenBrowser(object obj)
+        {
+            Process.Start(Card.ShortUrl);
         }
 
         private void Card_Updated(Card arg1, IEnumerable<string> arg2)
