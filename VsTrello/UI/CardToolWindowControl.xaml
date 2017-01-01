@@ -9,6 +9,8 @@
              xmlns:diag="clr-namespace:System.Diagnostics;assembly=WindowsBase"
              xmlns:mwc="clr-namespace:Scrubs.MvvmWeak.Converters;assembly=Scrubs.MvvmWeak"
              xmlns:mx="clr-namespace:Markdown.Xaml"
+             xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+             xmlns:Documents="clr-namespace:System.Windows.Documents;assembly=PresentationUI"
              Background="{DynamicResource VsBrush.Window}"
              Foreground="{DynamicResource VsBrush.WindowText}"
              mc:Ignorable="d"
@@ -20,6 +22,35 @@
                 <ResourceDictionary Source="/VsTrello;component/Resources/Dictionary.xaml" />
                 <ResourceDictionary Source="/VsTrello;component/Markdown/Markdown.Demo.Styles.Default.xaml" />
                 <ResourceDictionary>
+                    <Style x:Key="FlowDocumentPageViewerStyle1" TargetType="{x:Type FlowDocumentPageViewer}">
+                        <Setter Property="Background" Value="Transparent"/>
+                        <Setter Property="ContextMenu" Value="{DynamicResource {ComponentResourceKey ResourceId=PUIFlowViewers_ContextMenu, TypeInTargetAssembly={x:Type Documents:PresentationUIStyleResources}}}"/>
+                        <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                        <Setter Property="VerticalContentAlignment" Value="Center"/>
+                        <Setter Property="KeyboardNavigation.TabNavigation" Value="Local"/>
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="{x:Type FlowDocumentPageViewer}">
+                                    <DockPanel Language="en-us" LastChildFill="True" Uid="DockPanel_2">
+                                        <Border BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" Uid="Border_47" VerticalAlignment="{TemplateBinding VerticalContentAlignment}">
+                                            <AdornerDecorator ClipToBounds="True" Uid="AdornerDecorator_1">
+                                                <DocumentPageView DocumentPaginator="{x:Null}" KeyboardNavigation.IsTabStop="False" DocumentViewerBase.IsMasterPage="True" PageNumber="0" KeyboardNavigation.TabIndex="1" KeyboardNavigation.TabNavigation="Local" Uid="DocumentPageView_1"/>
+                                            </AdornerDecorator>
+                                        </Border>
+                                    </DockPanel>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                        <Style.Triggers>
+                            <MultiTrigger>
+                                <MultiTrigger.Conditions>
+                                    <Condition Property="IsInactiveSelectionHighlightEnabled" Value="True"/>
+                                    <Condition Property="IsSelectionActive" Value="False"/>
+                                </MultiTrigger.Conditions>
+                                <Setter Property="SelectionBrush" Value="{DynamicResource {x:Static SystemColors.InactiveSelectionHighlightBrushKey}}"/>
+                            </MultiTrigger>
+                        </Style.Triggers>
+                    </Style>
                     <mwc:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
                     <ui:TrelloColorConverter x:Key="TrelloColorConverter"/>
                     <ui:LaunchBrowserCommand x:Key="LaunchBrowserCommand" />
@@ -67,13 +98,15 @@
                                     </Border>
                                     <TextBlock Grid.Row="0" Grid.Column="1"  Text="{Binding Creator}" FontWeight="Bold" />
                                     <!--<TextBlock Grid.Row="1" Grid.Column="1"  Text="{Binding Text }" TextWrapping="Wrap" />-->
-                                    <FlowDocumentScrollViewer Grid.Row="1"
+                                    <FlowDocumentPageViewer 
                                       Grid.Column="1"
+                                      Grid.Row="1"
                                       VerticalAlignment="Stretch"
                                       HorizontalAlignment="Stretch"
                                       Margin="5"
-                                      ScrollViewer.VerticalScrollBarVisibility="Hidden"
+                                      Style="{StaticResource FlowDocumentPageViewerStyle1}"
                                       Document="{Binding Text, Converter={StaticResource TextToFlowDocumentConverter}}" />
+
                                     <TextBlock Grid.Row="2" Grid.Column="1"  Text="{Binding Date }" />
                                 </Grid>
                             </Border>
@@ -110,7 +143,7 @@
                             </DataTrigger>
                         </DataTemplate.Triggers>
                     </DataTemplate>
-                    
+
                 </ResourceDictionary>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
@@ -142,7 +175,7 @@
                 <Button Content="Move" Margin="0,10,0,0" Command="{Binding LaunchBroswerCommand}" Style="{StaticResource FlatButtonStyle}"/>
                 <Button Content="Copy" Margin="0,10,0,0" Command="{Binding LaunchBroswerCommand}" Style="{StaticResource FlatButtonStyle}"/>
                 <Button Content="subscribe" Margin="0,10,0,0" Command="{Binding LaunchBroswerCommand}" Style="{StaticResource FlatButtonStyle}"/>
-                <Button Content="Archive" Margin="0,10,0,0" Command="{Binding LaunchBroswerCommand}" Style="{StaticResource FlatButtonStyle}"/>-->  
+                <Button Content="Archive" Margin="0,10,0,0" Command="{Binding LaunchBroswerCommand}" Style="{StaticResource FlatButtonStyle}"/>-->
             </StackPanel>
 
             <!-- Left Side -->
@@ -154,7 +187,13 @@
                     <TextBlock  Text="{Binding Card.List}"/>
                 </WrapPanel>
                 <TextBlock Text="Description" FontWeight="Bold" Margin="5,10,0,10"/>
-                <TextBlock Text="{Binding Card.Description}" TextWrapping="Wrap"/>
+                <!--<TextBlock Text="{Binding Card.Description}" TextWrapping="Wrap"/>-->
+                <FlowDocumentPageViewer 
+                    VerticalAlignment="Stretch"
+                    HorizontalAlignment="Stretch"
+                    Style="{StaticResource FlowDocumentPageViewerStyle1}"
+                    Document="{Binding Card.Description, Converter={StaticResource TextToFlowDocumentConverter}}" />
+
             </StackPanel>
             <Grid Grid.Row="1"  Margin="5,5,0,20">
                 <Grid.ColumnDefinitions>

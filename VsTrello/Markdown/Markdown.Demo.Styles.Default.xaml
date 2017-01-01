@@ -1,5 +1,8 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:mtcw="clr-namespace:Microsoft.TeamFoundation.Controls.WPF;assembly=Microsoft.TeamFoundation.Controls"
+                    xmlns:converters="clr-namespace:VsTrello.UI">
+    <converters:BrushToColorConverter x:Key="BrushToColorConverter"/>
     <Style TargetType="FlowDocument" x:Key="DocumentStyle">
         <Setter Property="FontFamily" Value="Calibri" />
         <Setter Property="TextAlignment" Value="Left" />
@@ -7,25 +10,25 @@
 
     <Style x:Key="H1Style" TargetType="Paragraph">
         <Setter Property="FontSize" Value="20" />
-        <Setter Property="Foreground" Value="{DynamicResource VsBrush.WindowText}" />
+        <Setter Property="Foreground" Value="{Binding Source={x:Static mtcw:TeamFoundationColors.Instance}, Path=ItemTextColor, Mode=OneWay, Converter={StaticResource BrushToColorConverter}}" />
         <Setter Property="FontWeight" Value="Bold" />
     </Style>
 
     <Style x:Key="H2Style" TargetType="Paragraph">
         <Setter Property="FontSize" Value="15" />
-        <Setter Property="Foreground" Value="{DynamicResource VsBrush.WindowText}" />
+        <Setter Property="Foreground" Value="{Binding Source={x:Static mtcw:TeamFoundationColors.Instance}, Path=ItemTextColor, Mode=OneWay, Converter={StaticResource BrushToColorConverter}}" />
         <Setter Property="FontWeight" Value="Bold" />
     </Style>
 
     <Style x:Key="H3Style" TargetType="Paragraph">
         <Setter Property="FontSize" Value="15" />
-        <Setter Property="Foreground" Value="{DynamicResource VsBrush.WindowText}" />
+        <Setter Property="Foreground" Value="{Binding Source={x:Static mtcw:TeamFoundationColors.Instance}, Path=ItemTextColor, Mode=OneWay, Converter={StaticResource BrushToColorConverter}}" />
         <Setter Property="FontWeight" Value="Light" />
     </Style>
 
     <Style x:Key="H4Style" TargetType="Paragraph">
         <Setter Property="FontSize" Value="12" />
-        <Setter Property="Foreground" Value="{DynamicResource VsBrush.WindowText}" />
+        <Setter Property="Foreground" Value="{Binding Source={x:Static mtcw:TeamFoundationColors.Instance}, Path=ItemTextColor, Mode=OneWay, Converter={StaticResource BrushToColorConverter}}" />
         <Setter Property="FontWeight" Value="Bold" />
     </Style>
 
@@ -51,7 +54,7 @@
         <Setter Property="X2"
                   Value="{Binding ActualWidth, RelativeSource={RelativeSource AncestorType=FlowDocumentScrollViewer}}" />
         <Setter Property="Stroke"
-                  Value="{DynamicResource VsBrush.WindowText}" />
+                  Value="{Binding Source={x:Static mtcw:TeamFoundationColors.Instance}, Path=ItemTextColor, Mode=OneWay, Converter={StaticResource BrushToColorConverter}}" />
         <Setter Property="StrokeThickness"
                   Value="2" />
     </Style>

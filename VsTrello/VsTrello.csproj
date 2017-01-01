@@ -54,6 +54,7 @@
     <Compile Include="CardToolWindow.cs" />
     <Compile Include="Markdown\Markdown.cs" />
     <Compile Include="Markdown\TextToFlowDocumentConverter.cs" />
+    <Compile Include="UI\BrushToColorConverter.cs" />
     <Compile Include="UI\CardToolWindowControl.xaml.cs">
       <DependentUpon>CardToolWindowControl.xaml</DependentUpon>
     </Compile>
@@ -243,6 +244,7 @@
     </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
+    <Reference Include="PresentationUI, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="RestSharp, Version=105.2.3.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\RestSharp.105.2.3\lib\net452\RestSharp.dll</HintPath>
       <Private>True</Private>
