@@ -3,14 +3,10 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:vm="clr-namespace:VsTrello.ViewModels"
              xmlns:mt="clr-namespace:Manatee.Trello;assembly=Manatee.Trello"
              xmlns:ui="clr-namespace:VsTrello.UI"
              xmlns:diag="clr-namespace:System.Diagnostics;assembly=WindowsBase"
              xmlns:mwc="clr-namespace:Scrubs.MvvmWeak.Converters;assembly=Scrubs.MvvmWeak"
-             xmlns:mx="clr-namespace:Markdown.Xaml"
-             xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
-             xmlns:Documents="clr-namespace:System.Windows.Documents;assembly=PresentationUI"
              Background="{DynamicResource VsBrush.Window}"
              Foreground="{DynamicResource VsBrush.WindowText}"
              mc:Ignorable="d"
@@ -19,131 +15,14 @@
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="/VsTrello;component/Resources/Dictionary.xaml" />
-                <ResourceDictionary Source="/VsTrello;component/Markdown/Markdown.Demo.Styles.Default.xaml" />
+                <ResourceDictionary Source="/VsTrello;component/Resources/VisualStudioStyles.xaml" />
+                
+                <ResourceDictionary Source="/VsTrello;component/Resources/Styles.xaml" />
                 <ResourceDictionary>
-                    <Style x:Key="FlowDocumentPageViewerStyle1" TargetType="{x:Type FlowDocumentPageViewer}">
-                        <Setter Property="Background" Value="Transparent"/>
-                        <Setter Property="ContextMenu" Value="{DynamicResource {ComponentResourceKey ResourceId=PUIFlowViewers_ContextMenu, TypeInTargetAssembly={x:Type Documents:PresentationUIStyleResources}}}"/>
-                        <Setter Property="HorizontalContentAlignment" Value="Center"/>
-                        <Setter Property="VerticalContentAlignment" Value="Center"/>
-                        <Setter Property="KeyboardNavigation.TabNavigation" Value="Local"/>
-                        <Setter Property="Template">
-                            <Setter.Value>
-                                <ControlTemplate TargetType="{x:Type FlowDocumentPageViewer}">
-                                    <DockPanel Language="en-us" LastChildFill="True" Uid="DockPanel_2">
-                                        <Border BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" Uid="Border_47" VerticalAlignment="{TemplateBinding VerticalContentAlignment}">
-                                            <AdornerDecorator ClipToBounds="True" Uid="AdornerDecorator_1">
-                                                <DocumentPageView DocumentPaginator="{x:Null}" KeyboardNavigation.IsTabStop="False" DocumentViewerBase.IsMasterPage="True" PageNumber="0" KeyboardNavigation.TabIndex="1" KeyboardNavigation.TabNavigation="Local" Uid="DocumentPageView_1"/>
-                                            </AdornerDecorator>
-                                        </Border>
-                                    </DockPanel>
-                                </ControlTemplate>
-                            </Setter.Value>
-                        </Setter>
-                        <Style.Triggers>
-                            <MultiTrigger>
-                                <MultiTrigger.Conditions>
-                                    <Condition Property="IsInactiveSelectionHighlightEnabled" Value="True"/>
-                                    <Condition Property="IsSelectionActive" Value="False"/>
-                                </MultiTrigger.Conditions>
-                                <Setter Property="SelectionBrush" Value="{DynamicResource {x:Static SystemColors.InactiveSelectionHighlightBrushKey}}"/>
-                            </MultiTrigger>
-                        </Style.Triggers>
-                    </Style>
                     <mwc:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
                     <ui:TrelloColorConverter x:Key="TrelloColorConverter"/>
                     <ui:LaunchBrowserCommand x:Key="LaunchBrowserCommand" />
                     <ui:DebugConverter x:Key="DebugConverter"/>
-                    <Style TargetType="Button" x:Key="FlatButtonStyle">
-                        <Setter Property="Height" Value="25"/>
-                        <Setter Property="Template">
-                            <Setter.Value>
-                                <ControlTemplate TargetType="Button">
-                                    <Border BorderThickness="0"
-                                            Background="{TemplateBinding Background}"
-                                            CornerRadius="3">
-                                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                    </Border>
-                                </ControlTemplate>
-                            </Setter.Value>
-                        </Setter>
-                    </Style>
-                    <mx:Markdown x:Key="Markdown"
-                        DocumentStyle="{StaticResource DocumentStyle}"
-                        Heading1Style="{StaticResource H1Style}"
-                        Heading2Style="{StaticResource H2Style}"
-                        Heading3Style="{StaticResource H3Style}"
-                        Heading4Style="{StaticResource H4Style}"
-                        LinkStyle="{StaticResource LinkStyle}"
-                        ImageStyle="{StaticResource ImageStyle}"
-                        SeparatorStyle="{StaticResource SeparatorStyle}"/>
-                    <mx:TextToFlowDocumentConverter x:Key="TextToFlowDocumentConverter" Markdown="{StaticResource Markdown}"/>
-                    <DataTemplate DataType="{x:Type vm:Comment}">
-                        <StackPanel>
-                            <Border BorderThickness="1"  Margin="0,0,0,7" BorderBrush="{DynamicResource SubduedBorderBrushKey}" CornerRadius="6" Padding="2" HorizontalAlignment="Stretch">
-                                <Grid>
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="Auto"/>
-                                        <ColumnDefinition Width="*"/>
-                                    </Grid.ColumnDefinitions>
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition/>
-                                        <RowDefinition/>
-                                        <RowDefinition/>
-                                    </Grid.RowDefinitions>
-                                    <Image x:Name="Avatar" Grid.Row="0" Grid.Column="0" Height="24" Width="24" Margin="5,0,5,0" Source="{Binding MemberImage}" />
-                                    <Border x:Name="AltAvatar" CornerRadius="3" BorderThickness="1" Background="Gray" Height="24" Width="24" Visibility="Collapsed" Margin="5,0,5,0">
-                                        <TextBlock Text="{Binding Initials}"  Foreground="Black" HorizontalAlignment="Center" TextAlignment="Center" VerticalAlignment="Center" FontWeight="Bold" FontSize="12" FontFamily="Arial"/>
-                                    </Border>
-                                    <TextBlock Grid.Row="0" Grid.Column="1"  Text="{Binding Creator}" FontWeight="Bold" />
-                                    <!--<TextBlock Grid.Row="1" Grid.Column="1"  Text="{Binding Text }" TextWrapping="Wrap" />-->
-                                    <FlowDocumentPageViewer 
-                                      Grid.Column="1"
-                                      Grid.Row="1"
-                                      VerticalAlignment="Stretch"
-                                      HorizontalAlignment="Stretch"
-                                      Margin="5"
-                                      Style="{StaticResource FlowDocumentPageViewerStyle1}"
-                                      Document="{Binding Text, Converter={StaticResource TextToFlowDocumentConverter}}" />
-
-                                    <TextBlock Grid.Row="2" Grid.Column="1"  Text="{Binding Date }" />
-                                </Grid>
-                            </Border>
-                        </StackPanel>
-                        <DataTemplate.Triggers>
-                            <DataTrigger Binding="{Binding MemberImage}" Value="{x:Null}">
-                                <Setter TargetName="Avatar" Property="Visibility" Value="Collapsed" />
-                                <Setter TargetName="AltAvatar" Property="Visibility" Value="Visible" />
-                            </DataTrigger>
-                        </DataTemplate.Triggers>
-                    </DataTemplate>
-                    <DataTemplate DataType="{x:Type vm:SimpleAction}">
-                        <Border BorderThickness="1"  Margin="0,0,0,7" BorderBrush="{DynamicResource SubduedBorderBrushKey}" CornerRadius="6" Padding="2">
-                            <Grid>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="Auto"/>
-                                    <ColumnDefinition Width="Auto"/>
-                                    <ColumnDefinition Width="*"/>
-                                    <ColumnDefinition Width="Auto"/>
-                                </Grid.ColumnDefinitions>
-                                <Image x:Name="Avatar" Grid.Column="0" Height="24" Width="24" Margin="5,0,5,0" Source="{Binding MemberImage}" />
-                                <Border x:Name="AltAvatar" CornerRadius="3" BorderThickness="1" Background="Gray" Height="24" Width="24" Visibility="Collapsed" Margin="5,0,5,0">
-                                    <TextBlock  Text="{Binding Initials}" FontFamily="Arial" Foreground="Black" HorizontalAlignment="Center" TextAlignment="Center" VerticalAlignment="Center" FontWeight="Bold" FontSize="12"/>
-                                </Border>
-                                <TextBlock Grid.Column="1" Text="{Binding Creator}"  FontWeight="Bold"  />
-                                <TextBlock Grid.Column="2" Text="{Binding Text }"    Margin="5,0,5,0"/>
-                                <TextBlock Grid.Column="3" Text="{Binding Date }"   />
-                            </Grid>
-                        </Border>
-                        <DataTemplate.Triggers>
-                            <DataTrigger Binding="{Binding MemberImage}" Value="{x:Null}">
-                                <Setter TargetName="Avatar" Property="Visibility" Value="Collapsed" />
-                                <Setter TargetName="AltAvatar" Property="Visibility" Value="Visible" />
-                            </DataTrigger>
-                        </DataTemplate.Triggers>
-                    </DataTemplate>
-
                 </ResourceDictionary>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
@@ -165,35 +44,34 @@
             <!-- Right Side -->
             <StackPanel Width="100" Grid.RowSpan="6" Grid.Row="0" Grid.Column="1">
                 <Button Content="Open in Trello" Margin="0,225,0,10" Command="{Binding LaunchBroswerCommand}" Style="{StaticResource FlatButtonStyle}"/>
-                <!--<TextBlock Text="Add" Margin="0,15,0,0" FontSize="18" FontWeight="Bold"/>
+                <TextBlock Text="Add" Margin="0,15,0,0" Style="{StaticResource TitleText}"/>
                 <Button Content="Members" Margin="0,10,0,0" Command="{Binding LaunchBroswerCommand}" Style="{StaticResource FlatButtonStyle}"/>
                 <Button Content="Labels" Margin="0,10,0,0" Command="{Binding LaunchBroswerCommand}" Style="{StaticResource FlatButtonStyle}"/>
                 <Button Content="Checklists" Margin="0,10,0,0" Command="{Binding LaunchBroswerCommand}" Style="{StaticResource FlatButtonStyle}"/>
                 <Button Content="Due Date" Margin="0,10,0,0" Command="{Binding LaunchBroswerCommand}" Style="{StaticResource FlatButtonStyle}"/>
                 <Button Content="Attachment" Margin="0,10,0,0" Command="{Binding LaunchBroswerCommand}" Style="{StaticResource FlatButtonStyle}"/>
-                <TextBlock Text="Actions" Margin="0,15,0,0" FontSize="18" FontWeight="Bold"/>
+                <TextBlock Text="Actions" Margin="0,15,0,0" Style="{StaticResource TitleText}"/>
                 <Button Content="Move" Margin="0,10,0,0" Command="{Binding LaunchBroswerCommand}" Style="{StaticResource FlatButtonStyle}"/>
                 <Button Content="Copy" Margin="0,10,0,0" Command="{Binding LaunchBroswerCommand}" Style="{StaticResource FlatButtonStyle}"/>
                 <Button Content="subscribe" Margin="0,10,0,0" Command="{Binding LaunchBroswerCommand}" Style="{StaticResource FlatButtonStyle}"/>
-                <Button Content="Archive" Margin="0,10,0,0" Command="{Binding LaunchBroswerCommand}" Style="{StaticResource FlatButtonStyle}"/>-->
+                <Button Content="Archive" Margin="0,10,0,0" Command="{Binding LaunchBroswerCommand}" Style="{StaticResource FlatButtonStyle}"/>
             </StackPanel>
 
             <!-- Left Side -->
 
             <StackPanel Grid.Row="0" Margin="5,5,0,20">
-                <TextBlock  FontSize="18" FontWeight="Bold" Text="{Binding Card.Name}"/>
+                <TextBlock  Style="{StaticResource TitleText}" Text="{Binding Card.Name}"/>
                 <WrapPanel>
                     <TextBlock Text="in list"/>
                     <TextBlock  Text="{Binding Card.List}"/>
                 </WrapPanel>
-                <TextBlock Text="Description" FontWeight="Bold" Margin="5,10,0,10"/>
-                <!--<TextBlock Text="{Binding Card.Description}" TextWrapping="Wrap"/>-->
-                <FlowDocumentPageViewer 
-                    VerticalAlignment="Stretch"
-                    HorizontalAlignment="Stretch"
-                    Style="{StaticResource FlowDocumentPageViewerStyle1}"
-                    Document="{Binding Card.Description, Converter={StaticResource TextToFlowDocumentConverter}}" />
-
+                <TextBlock Text="Description" Style="{StaticResource TitleText}" Margin="0,10,0,10"/>
+                <ui:MarkdownControl 
+                        Document="{Binding Card.Description, Converter={StaticResource TextToFlowDocumentConverter}}" 
+                        Grid.Column="1" 
+                        Grid.Row="1"
+                        Foreground="{DynamicResource SubduedTextBrushKey}"
+                        Background="{Binding VsBrush.Window}"/>
             </StackPanel>
             <Grid Grid.Row="1"  Margin="5,5,0,20">
                 <Grid.ColumnDefinitions>
@@ -204,8 +82,8 @@
                     <RowDefinition/>
                     <RowDefinition/>
                 </Grid.RowDefinitions>
-                <TextBlock Text="Members" FontWeight="Bold" Grid.Column="0" Grid.Row="0"/>
-                <TextBlock Text="Labels" FontWeight="Bold" Grid.Column="1" Grid.Row="0"/>
+                <TextBlock Text="Members" Style="{StaticResource TitleText}" Grid.Column="0" Grid.Row="0"/>
+                <TextBlock Text="Labels" Style="{StaticResource TitleText}" Grid.Column="1" Grid.Row="0"/>
                 <ItemsControl Margin="5" Grid.Column="0" Grid.Row="1" ItemsSource="{Binding Card.Members}">
                     <ItemsControl.ItemsPanel>
                         <ItemsPanelTemplate>
@@ -245,7 +123,7 @@
                     </ItemsControl.ItemTemplate>
                 </ItemsControl>
             </Grid>
-            <TextBlock Grid.Row="2"  Margin="5,0,0,0" FontSize="18" FontWeight="Bold">Attachments</TextBlock>
+            <TextBlock Grid.Row="2"  Margin="5,0,0,0" Style="{StaticResource TitleText}" Text="Attachments"/>
             <ItemsControl Grid.Row="3" Margin="5,0,0,20" ItemsSource="{Binding Card.Attachments}" ScrollViewer.HorizontalScrollBarVisibility="Disabled" HorizontalContentAlignment="Stretch">
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
@@ -264,23 +142,10 @@
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
-                <TextBlock Grid.Column="0" Margin="5,0,0,0" FontSize="18" FontWeight="Bold">Actions</TextBlock>
+                <TextBlock Grid.Column="0" Margin="5,0,0,0" Style="{StaticResource TitleText}" Text="Activity"/>
                 <CheckBox Grid.Column="1" IsChecked="{Binding ShowDetails, Mode=TwoWay}">Show Details</CheckBox>
             </Grid>
-            <ItemsControl Grid.Row="5" Margin="5,0,0,0" ItemsSource="{Binding Actions}" ScrollViewer.HorizontalScrollBarVisibility="Disabled" HorizontalContentAlignment="Stretch">
-                <!--<ItemsControl.ItemContainerStyle>
-                <Style TargetType="{x:Type ListViewItem}">
-                    <Setter Property="Background" Value="Transparent" />
-                    <Setter Property="Template">
-                        <Setter.Value>
-                            <ControlTemplate TargetType="{x:Type ListViewItem}">
-                                <ContentPresenter />
-                            </ControlTemplate>
-                        </Setter.Value>
-                    </Setter>
-                </Style>
-            </ItemsControl.ItemContainerStyle>-->
-            </ItemsControl>
+            <ItemsControl Grid.Row="5" Margin="5,0,0,0" ItemsSource="{Binding Actions}" ScrollViewer.HorizontalScrollBarVisibility="Disabled" HorizontalContentAlignment="Stretch"/>
         </Grid>
     </ScrollViewer>
 </UserControl>

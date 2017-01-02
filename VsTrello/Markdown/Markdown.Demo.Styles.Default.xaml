@@ -10,30 +10,52 @@
 
     <Style x:Key="H1Style" TargetType="Paragraph">
         <Setter Property="FontSize" Value="20" />
-        <Setter Property="Foreground" Value="{Binding Source={x:Static mtcw:TeamFoundationColors.Instance}, Path=ItemTextColor, Mode=OneWay, Converter={StaticResource BrushToColorConverter}}" />
+        <Setter Property="Foreground" Value="{DynamicResource SubduedTextBrushKey}"/> 
         <Setter Property="FontWeight" Value="Bold" />
     </Style>
 
     <Style x:Key="H2Style" TargetType="Paragraph">
         <Setter Property="FontSize" Value="15" />
-        <Setter Property="Foreground" Value="{Binding Source={x:Static mtcw:TeamFoundationColors.Instance}, Path=ItemTextColor, Mode=OneWay, Converter={StaticResource BrushToColorConverter}}" />
+        <Setter Property="Foreground" Value="{DynamicResource SubduedTextBrushKey}" />
         <Setter Property="FontWeight" Value="Bold" />
     </Style>
 
     <Style x:Key="H3Style" TargetType="Paragraph">
         <Setter Property="FontSize" Value="15" />
-        <Setter Property="Foreground" Value="{Binding Source={x:Static mtcw:TeamFoundationColors.Instance}, Path=ItemTextColor, Mode=OneWay, Converter={StaticResource BrushToColorConverter}}" />
+        <Setter Property="Foreground" Value="{DynamicResource SubduedTextBrushKey}" />
         <Setter Property="FontWeight" Value="Light" />
     </Style>
 
     <Style x:Key="H4Style" TargetType="Paragraph">
         <Setter Property="FontSize" Value="12" />
-        <Setter Property="Foreground" Value="{Binding Source={x:Static mtcw:TeamFoundationColors.Instance}, Path=ItemTextColor, Mode=OneWay, Converter={StaticResource BrushToColorConverter}}" />
+        <Setter Property="Foreground" Value="{DynamicResource SubduedTextBrushKey}" />
         <Setter Property="FontWeight" Value="Bold" />
     </Style>
 
+    <Style x:Key="TextStyle" TargetType="Run">
+        <Setter Property="Foreground" Value="{DynamicResource SubduedTextBrushKey}" />
+    </Style>
+
     <Style x:Key="LinkStyle" TargetType="Hyperlink">
-        <Setter Property="TextDecorations" Value="None" />
+
+
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="true">
+                <Setter Property="Foreground" Value="{DynamicResource EmphasizedTextBrushKey}" />
+            </Trigger>
+            <Trigger Property="IsEnabled" Value="false">
+                <Setter Property="Foreground" Value="{DynamicResource SubduedTextBrushKey}" />
+            </Trigger>
+            <Trigger Property="IsEnabled" Value="true">
+                <Setter Property="Cursor" Value="Hand" />
+            </Trigger>
+        </Style.Triggers>
+        <Setter Property="Foreground" Value="{DynamicResource SubduedTextBrushKey}" />
+        <Setter Property="TextDecorations" Value="Underline" />
+
+
+
+
     </Style>
 
     <Style x:Key="ImageStyle"
@@ -54,7 +76,7 @@
         <Setter Property="X2"
                   Value="{Binding ActualWidth, RelativeSource={RelativeSource AncestorType=FlowDocumentScrollViewer}}" />
         <Setter Property="Stroke"
-                  Value="{Binding Source={x:Static mtcw:TeamFoundationColors.Instance}, Path=ItemTextColor, Mode=OneWay, Converter={StaticResource BrushToColorConverter}}" />
+                  Value="{DynamicResource EmphasizedTextBrushKey}" />
         <Setter Property="StrokeThickness"
                   Value="2" />
     </Style>

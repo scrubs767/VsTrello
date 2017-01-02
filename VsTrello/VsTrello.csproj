@@ -68,6 +68,9 @@
     </Compile>
     <Compile Include="UI\DebugConverter.cs" />
     <Compile Include="UI\LaunchBrowserCommand.cs" />
+    <Compile Include="UI\MarkdownControl.xaml.cs">
+      <DependentUpon>MarkdownControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UI\TrelloColorConverter.cs" />
     <Compile Include="ViewModels\CardsListViewModel.cs" />
     <Compile Include="Utility\Colors.cs" />
@@ -323,6 +326,10 @@
       <SubType>Designer</SubType>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Page>
+    <Page Include="Resources\Styles.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="UI\CardToolWindowControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -335,11 +342,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="UI\MarkdownControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="UI\OptionsPageControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Resources\Dictionary.xaml">
+    <Page Include="Resources\VisualStudioStyles.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

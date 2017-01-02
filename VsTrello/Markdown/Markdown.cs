@@ -47,6 +47,22 @@ namespace Markdown.Xaml
             set { SetValue(DocumentStyleProperty, value); }
         }
 
+
+
+
+        public Style TextStyle
+        {
+            get { return (Style)GetValue(TextStyleProperty); }
+            set { SetValue(TextStyleProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for Heading1Style.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty TextStyleProperty =
+            DependencyProperty.Register("TextStyle", typeof(Style), typeof(Markdown), new PropertyMetadata(null));
+
+
+
+
         // Using a DependencyProperty as the backing store for DocumentStyle.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty DocumentStyleProperty =
             DependencyProperty.Register("DocumentStyle", typeof(Style), typeof(Markdown), new PropertyMetadata(null));
@@ -1045,7 +1061,12 @@ namespace Markdown.Xaml
             }
 
             var t = _eoln.Replace(text, " ");
-            yield return new Run(t);
+            Run r = new Run(t);
+            if (TextStyle != null)
+            {
+                r.Style = TextStyle;
+            }
+            yield return r;
         }
     }
 }
