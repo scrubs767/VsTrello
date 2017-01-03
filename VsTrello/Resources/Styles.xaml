@@ -6,11 +6,19 @@
                     xmlns:system="clr-namespace:System;assembly=mscorlib"
                     xmlns:vm="clr-namespace:VsTrello.ViewModels"
                     xmlns:ui="clr-namespace:VsTrello.UI"
-                    xmlns:mx="clr-namespace:Markdown.Xaml">
+                    xmlns:mx="clr-namespace:Markdown.Xaml"
+                    xmlns:mt="clr-namespace:Manatee.Trello;assembly=Manatee.Trello">
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="/VsTrello;component/Resources/VisualStudioStyles.xaml" />
         <ResourceDictionary Source="/VsTrello;component/Markdown/Markdown.Demo.Styles.Default.xaml" />
     </ResourceDictionary.MergedDictionaries>
+    <ui:TrelloColorConverter x:Key="TrelloColorConverter"/>
+    
+    <Style x:Key="CheckboxStyle" TargetType="{x:Type CheckBox}">
+        <Setter Property="Foreground" Value="{DynamicResource BodyTextBrushKey}"/>
+        <Setter Property="Background" Value="Transparent"/>
+    </Style>
+    
     <Style x:Key="TitleText" TargetType="{x:Type TextBlock}">
         <Setter Property="FontSize" Value="18"/>
         <Setter Property="FontWeight" Value="Bold"/>
@@ -22,7 +30,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="Button">
-                    <Border BorderThickness="0"
+                    <Border BorderThickness="1" BorderBrush="{DynamicResource ButtonBorderBrushKey}"
                                             Background="{TemplateBinding Background}"
                                             CornerRadius="3">
                         <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
@@ -80,7 +88,6 @@
                         Heading2Style="{StaticResource H2Style}"
                         Heading3Style="{StaticResource H3Style}"
                         Heading4Style="{StaticResource H4Style}"
-                        TextStyle="{StaticResource TextStyle}"
                         LinkStyle="{StaticResource LinkStyle}"
                         ImageStyle="{StaticResource ImageStyle}"
                         SeparatorStyle="{StaticResource SeparatorStyle}"/>
@@ -101,11 +108,11 @@
                     </Grid.RowDefinitions>
                     <Image x:Name="Avatar" Grid.Row="0" Grid.Column="0" Height="24" Width="24" Margin="5,0,5,0" Source="{Binding MemberImage}" />
                     <Border x:Name="AltAvatar" CornerRadius="3" BorderThickness="1" Background="Gray" Height="24" Width="24" Visibility="Collapsed" Margin="5,0,5,0">
-                        <TextBlock Text="{Binding Initials}"  Foreground="Black" HorizontalAlignment="Center" TextAlignment="Center" VerticalAlignment="Center" FontWeight="Bold" FontSize="12" FontFamily="Arial"/>
+                        <TextBlock Text="{Binding Initials}"  Foreground="Black" HorizontalAlignment="Center" TextAlignment="Center" VerticalAlignment="Center" FontWeight="Bold" FontSize="12"/>
                     </Border>
-                    <TextBlock Grid.Row="0" Grid.Column="1"  Text="{Binding Creator}" FontWeight="Bold" />
-                    <ui:MarkdownControl Document="{Binding Text, Converter={StaticResource TextToFlowDocumentConverter}}" Grid.Column="1" Grid.Row="1"/>
-                    <TextBlock Grid.Row="2" Grid.Column="1"  Text="{Binding Date }" />
+                    <TextBlock Grid.Row="0" Grid.Column="1"  Text="{Binding Creator}" FontWeight="Bold"/>
+                    <ui:MarkdownControl Document="{Binding Text, Converter={StaticResource TextToFlowDocumentConverter}}" Background="Transparent" Grid.Column="1" Grid.Row="1"/>
+                    <TextBlock Grid.Row="2" Grid.Column="1" Margin="0,10,0,0" Text="{Binding Date }"/>
                 </Grid>
             </Border>
         </StackPanel>
@@ -129,11 +136,11 @@
                 </Grid.ColumnDefinitions>
                 <Image x:Name="Avatar" Grid.Column="0" Height="24" Width="24" Margin="5,0,5,0" Source="{Binding MemberImage}" />
                 <Border x:Name="AltAvatar" CornerRadius="3" BorderThickness="1" Background="Gray" Height="24" Width="24" Visibility="Collapsed" Margin="5,0,5,0">
-                    <TextBlock  Text="{Binding Initials}" FontFamily="Arial" Foreground="Black" HorizontalAlignment="Center" TextAlignment="Center" VerticalAlignment="Center" FontWeight="Bold" FontSize="12"/>
+                    <TextBlock  Text="{Binding Initials}" Foreground="Black" HorizontalAlignment="Center" TextAlignment="Center" VerticalAlignment="Center" FontWeight="Bold" FontSize="12"/>
                 </Border>
                 <TextBlock Grid.Column="1" Text="{Binding Creator}"  FontWeight="Bold"  />
                 <TextBlock Grid.Column="2" Text="{Binding Text }"    Margin="5,0,5,0"/>
-                <TextBlock Grid.Column="3" Text="{Binding Date }"   />
+                <TextBlock Grid.Column="3" Text="{Binding Date}" />
             </Grid>
         </Border>
         <DataTemplate.Triggers>
@@ -143,4 +150,35 @@
             </DataTrigger>
         </DataTemplate.Triggers>
     </DataTemplate>
+
+    <DataTemplate DataType="{x:Type mt:Member}">
+        <StackPanel>
+            <Image x:Name="Avatar" Height="30" Width="30" Margin="1" Source="{Binding AvatarUrl}"/>
+            <Border x:Name="AltAvatar" CornerRadius="3" BorderThickness="1" Background="Gray" Height="30" Width="30" Visibility="Collapsed" Margin="1" >
+                <TextBlock   Text="{Binding Initials}"  Foreground="Black" HorizontalAlignment="Center" TextAlignment="Center" VerticalAlignment="Center" FontWeight="Bold" FontSize="13"/>
+            </Border>
+        </StackPanel>
+        <DataTemplate.Triggers>
+            <DataTrigger Binding="{Binding AvatarUrl}" Value="{x:Null}">
+                <Setter TargetName="Avatar" Property="Visibility" Value="Collapsed" />
+                <Setter TargetName="AltAvatar" Property="Visibility" Value="Visible" />
+            </DataTrigger>
+        </DataTemplate.Triggers>
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type mt:Label}">
+        <Border Background="{Binding Color, Converter={StaticResource TrelloColorConverter}}" CornerRadius="5" Margin="3">
+            <TextBlock Margin="5" MinWidth="75" Text="{Binding Name}" Background="{Binding Color, Converter={StaticResource TrelloColorConverter}}" Foreground="White" FontWeight="Bold" TextAlignment="Center" TextTrimming="CharacterEllipsis"/>
+        </Border>
+    </DataTemplate>
+    
+    <Style x:Key="WrapList" TargetType="ItemsControl">
+        <Setter Property="ItemsPanel">
+            <Setter.Value>
+                <ItemsPanelTemplate >
+                    <WrapPanel/>
+                </ItemsPanelTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
 </ResourceDictionary>
