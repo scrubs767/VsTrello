@@ -1,4 +1,12 @@
-﻿Version 0.2.0:
+﻿Version 0.2.2:
+Markdown is supported in comments and descriptions
+A generic avatar is created if a member doesn't have one.
+Refined the styles
+UI changes on the tool window
+
+Version 0.2.1:
+
+Version 0.2.0:
 Added a window to display the card information, no more launching the browser to display a card.
 
 Version 0.1.1:
