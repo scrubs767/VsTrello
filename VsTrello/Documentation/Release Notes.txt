@@ -1,4 +1,7 @@
-﻿Version 0.2.2:
+﻿Version 0.2.3:
+removed unused buttons for release
+
+Version 0.2.2:
 Markdown is supported in comments and descriptions
 A generic avatar is created if a member doesn't have one.
 Refined the styles
