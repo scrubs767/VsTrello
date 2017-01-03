@@ -6,6 +6,63 @@
              xmlns:local="clr-namespace:VsTrello"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
+    <UserControl.Resources>
+        <Style x:Key="FocusVisual">
+            <Setter Property="Control.Template">
+                <Setter.Value>
+                    <ControlTemplate>
+                        <Rectangle Margin="2" SnapsToDevicePixels="true" Stroke="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" StrokeThickness="1" StrokeDashArray="1 2"/>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <SolidColorBrush x:Key="Button.Static.Background" Color="Transparent"/>
+        <SolidColorBrush x:Key="Button.Static.Border" Color="#FF707070"/>
+        <SolidColorBrush x:Key="Button.MouseOver.Background" Color="Transparent"/>
+        <SolidColorBrush x:Key="Button.MouseOver.Border" Color="#FF3C7FB1"/>
+        <SolidColorBrush x:Key="Button.Pressed.Background" Color="Transparent"/>
+        <SolidColorBrush x:Key="Button.Pressed.Border" Color="#FF2C628B"/>
+        <SolidColorBrush x:Key="Button.Disabled.Background" Color="Transparent"/>
+        <SolidColorBrush x:Key="Button.Disabled.Border" Color="#FFADB2B5"/>
+        <SolidColorBrush x:Key="Button.Disabled.Foreground" Color="#FF838383"/>
+        <Style x:Key="OptionFlatButton" TargetType="Button">
+            <Setter Property="FocusVisualStyle" Value="{StaticResource FocusVisual}"/>
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="BorderBrush" Value="Transparent"/>
+            <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="Padding" Value="1"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border x:Name="border" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" SnapsToDevicePixels="true">
+                            <ContentPresenter x:Name="contentPresenter" Focusable="False" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsDefaulted" Value="true">
+                                <Setter Property="BorderBrush" TargetName="border" Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}"/>
+                            </Trigger>
+                            <Trigger Property="IsMouseOver" Value="true">
+                                <Setter Property="Background" TargetName="border" Value="{StaticResource Button.MouseOver.Background}"/>
+                                <Setter Property="BorderBrush" TargetName="border" Value="{StaticResource Button.MouseOver.Border}"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="true">
+                                <Setter Property="Background" TargetName="border" Value="{StaticResource Button.Pressed.Background}"/>
+                                <Setter Property="BorderBrush" TargetName="border" Value="{StaticResource Button.Pressed.Border}"/>
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="false">
+                                <Setter Property="Background" TargetName="border" Value="{StaticResource Button.Disabled.Background}"/>
+                                <Setter Property="BorderBrush" TargetName="border" Value="{StaticResource Button.Disabled.Border}"/>
+                                <Setter Property="TextElement.Foreground" TargetName="contentPresenter" Value="{StaticResource Button.Disabled.Foreground}"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </UserControl.Resources>
     <GroupBox Header="Authorization">
         <Grid>
             <Grid.RowDefinitions>
@@ -20,16 +77,40 @@
             </Grid.ColumnDefinitions>
             <Label Grid.Row="0" Content="Token"/>
             <TextBox Grid.Row="1" Text="{Binding Token}"/>
-            <TextBlock Grid.Row="2" TextWrapping="Wrap" Text="Your token can be generated at Trello's website, just click the following URL and copy the Token into the above text box"/>
-            <TextBlock Grid.Row="3">
-                <TextBlock>
-                    <Hyperlink NavigateUri="{Binding TokenRequestUrl}" RequestNavigate="Hyperlink_RequestNavigate">
-                        <Hyperlink.Inlines>
-                            <Run Text="Get Token"/>
-                        </Hyperlink.Inlines>
-                    </Hyperlink>
-                </TextBlock>
+            
+            <TextBlock TextWrapping="Wrap" Grid.Row="2">
+                <Run>Your token can be generated at Trello's website, just click the following URL and copy the Token into the above text box.</Run>
+                <Hyperlink NavigateUri="{Binding TokenRequestUrl}" RequestNavigate="Hyperlink_RequestNavigate">
+                    <Hyperlink.Inlines>
+                        <Run Text="Get Token"/>
+                    </Hyperlink.Inlines>
+                </Hyperlink>
             </TextBlock>
+            <ListBox Grid.Row="4"  ItemsSource="{Binding SearchListColumns}">
+                <ListBox.ItemContainerStyle>
+                    <Style TargetType="ListBoxItem">
+                        <Setter Property="HorizontalContentAlignment" Value="Stretch"></Setter>
+                    </Style>
+                </ListBox.ItemContainerStyle>
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition  Width="25"/>
+                                <ColumnDefinition  Width="25"/>
+                            </Grid.ColumnDefinitions>
+                            <CheckBox Grid.Column="0"  Content="{Binding HeaderText}" IsChecked="{Binding IsChecked}"/>
+                            <Button Grid.Column="1" Style="{StaticResource OptionFlatButton}">
+                                <Polygon Points="5,0 10,10, 0,10" Stroke="Black" Fill="Black" />
+                            </Button>
+                            <Button Grid.Column="2" Style="{StaticResource OptionFlatButton}">
+                                <Polygon Points="0,0 5,10, 10,0" Stroke="Black" Fill="Black" />
+                            </Button>
+                        </Grid>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
         </Grid>
     </GroupBox>
     

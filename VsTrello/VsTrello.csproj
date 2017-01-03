@@ -66,6 +66,7 @@
       <DependentUpon>CardList.xaml</DependentUpon>
     </Compile>
     <Compile Include="UI\DebugConverter.cs" />
+    <Compile Include="UI\GridViewColumns.cs" />
     <Compile Include="UI\LaunchBrowserCommand.cs" />
     <Compile Include="UI\TrelloColorConverter.cs" />
     <Compile Include="ViewModels\CardsListViewModel.cs" />
