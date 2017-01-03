@@ -50,7 +50,7 @@
 
                 <StackPanel Width="100" HorizontalAlignment="Left">
                     <Button Content="Open in Trello" Margin="0,15,0,10" Command="{Binding LaunchBroswerCommand}" Style="{StaticResource FlatButtonStyle}"/>
-                    <TextBlock Text="Add" Margin="0,15,0,0" Style="{StaticResource TitleText}"/>
+                    <!--<TextBlock Text="Add" Margin="0,15,0,0" Style="{StaticResource TitleText}"/>
                     <Button Content="Members" Margin="0,10,0,0" Command="{Binding LaunchBroswerCommand}" Style="{StaticResource FlatButtonStyle}"/>
                     <Button Content="Labels" Margin="0,10,0,0" Command="{Binding LaunchBroswerCommand}" Style="{StaticResource FlatButtonStyle}"/>
                     <Button Content="Checklists" Margin="0,10,0,0" Command="{Binding LaunchBroswerCommand}" Style="{StaticResource FlatButtonStyle}"/>
@@ -60,7 +60,7 @@
                     <Button Content="Move" Margin="0,10,0,0" Command="{Binding LaunchBroswerCommand}" Style="{StaticResource FlatButtonStyle}"/>
                     <Button Content="Copy" Margin="0,10,0,0" Command="{Binding LaunchBroswerCommand}" Style="{StaticResource FlatButtonStyle}"/>
                     <Button Content="subscribe" Margin="0,10,0,0" Command="{Binding LaunchBroswerCommand}" Style="{StaticResource FlatButtonStyle}"/>
-                    <Button Content="Archive" Margin="0,10,0,0" Command="{Binding LaunchBroswerCommand}" Style="{StaticResource FlatButtonStyle}"/>
+                    <Button Content="Archive" Margin="0,10,0,0" Command="{Binding LaunchBroswerCommand}" Style="{StaticResource FlatButtonStyle}"/>-->
                 </StackPanel>
             </StackPanel>
 
