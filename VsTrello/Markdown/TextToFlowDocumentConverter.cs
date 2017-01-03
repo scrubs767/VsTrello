@@ -4,6 +4,7 @@ using System.Diagnostics.Contracts;
 using System.Globalization;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Data;
@@ -39,8 +40,7 @@ namespace Markdown.Xaml
                 return null;
             }
 
-            var text = (string)value;
-
+            var text = Regex.Replace((string)value, @"(?<!\()(http[^\s]+)", @"[$1]($1)");
             var engine = Markdown ?? mMarkdown.Value;
 
             return engine.Transform(text);
