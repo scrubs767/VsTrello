@@ -1,4 +1,9 @@
-﻿Version 0.2.3:
+﻿Version 0.2.4:
+MRU searches
+Set MRU length
+You can now select/order which columns are displayed in the search list
+
+Version 0.2.3:
 removed unused buttons for release
 
 Version 0.2.2:
