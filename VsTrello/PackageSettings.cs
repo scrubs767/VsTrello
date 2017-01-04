@@ -11,6 +11,7 @@ using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Settings;
 using VsTrello.UI;
 using RestSharp;
+using System.Windows.Input;
 
 namespace VsTrello
 {
@@ -19,13 +20,14 @@ namespace VsTrello
     public class PackageSettings : NotifiableObject, IPackageSettings
     {
         Scrubs.VisualStudio.SettingsStore _settingsStore;
+        
 
         [ImportingConstructor]
         public PackageSettings([Import(typeof(SVsServiceProvider))] IServiceProvider serviceProvider)
         {
             var sm = new ShellSettingsManager(serviceProvider);
             _settingsStore = new Scrubs.VisualStudio.SettingsStore(sm.GetWritableSettingsStore(SettingsScope.UserSettings), VsTrelloPackage.AppName);
-            LoadSettings();
+            LoadSettings();       
         }
 
         public void Save()
