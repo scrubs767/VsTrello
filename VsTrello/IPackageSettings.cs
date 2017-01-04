@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using VsTrello.UI;
 
 namespace VsTrello
 {
@@ -11,6 +12,7 @@ namespace VsTrello
         IEnumerable<string> LastSearch { get; set; }
         void Save();
         bool ShowDetails { get; set; }
+        IEnumerable<SearchListColumn>  SearchListColumns {get;set;}
         event PropertyChangedEventHandler PropertyChanged;
     }
 }

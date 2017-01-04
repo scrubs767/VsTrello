@@ -9,6 +9,7 @@ using Scrubs.MvvmWeak;
 using System.ComponentModel.Composition;
 using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Settings;
+using VsTrello.UI;
 using RestSharp;
 
 namespace VsTrello
@@ -30,6 +31,14 @@ namespace VsTrello
         public void Save()
         {
             SaveSettings();
+            this.RaisePropertyChanged("Saved");
+        }
+
+        IEnumerable<SearchListColumn> _searchListColumns;
+        public IEnumerable<SearchListColumn> SearchListColumns
+        {
+            get { return _searchListColumns; }
+            set { _searchListColumns = value; this.RaisePropertyChanged(); }
         }
 
         string _applicationKey;
@@ -74,6 +83,28 @@ namespace VsTrello
                 LastSearch = upgradeLastSearch();
             }
             ShowDetails = (bool)_settingsStore.Read("ShowDetails", true);
+            var temp = (string)_settingsStore.Read("SearchListColumns", null);
+            if (temp != null && temp.Length != 0)
+            {
+                SearchListColumns = SimpleJson.DeserializeObject<IEnumerable<SearchListColumn>>(temp);
+            }
+            else
+            {
+                SearchListColumns = new List<SearchListColumn>() {
+                { new SearchListColumn() { DisplayMember="Board", HeaderText = "Board", IsChecked = false} },
+                { new SearchListColumn() { DisplayMember="CreationDate", HeaderText = "Created", IsChecked = false} },
+                { new SearchListColumn() { DisplayMember="Description", HeaderText = "Description", IsChecked = false} },
+                { new SearchListColumn() { DisplayMember="DueDate", HeaderText = "Due", IsChecked = false} },
+                { new SearchListColumn() { DisplayMember="Id", HeaderText = "Id", IsChecked = true} },
+                { new SearchListColumn() { DisplayMember="IsArchived", HeaderText = "Archived", IsChecked = false} },
+                { new SearchListColumn() { DisplayMember="IsSubscribed", HeaderText = "Subscribed", IsChecked = false} },
+                { new SearchListColumn() { DisplayMember="LastActivity", HeaderText = "Last Activity", IsChecked = false} },
+                { new SearchListColumn() { DisplayMember="List", HeaderText = "List", IsChecked = true} },
+                { new SearchListColumn() { DisplayMember="Name", HeaderText = "Name", IsChecked = true} },
+                { new SearchListColumn() { DisplayMember="Position", HeaderText = "Position", IsChecked = false} },
+                { new SearchListColumn() { DisplayMember="ShortId", HeaderText = "Short Id", IsChecked = false} },
+            };
+            }
         }
 
         private IEnumerable<string> upgradeLastSearch()
@@ -95,6 +126,7 @@ namespace VsTrello
             _settingsStore.Write("Token", Token);
             _settingsStore.Write("LastSearch", SimpleJson.SerializeObject(LastSearch));
             _settingsStore.Write("ShowDetails", ShowDetails);
+            _settingsStore.Write("SearchListColumns", SimpleJson.SerializeObject(SearchListColumns));
         }
     }
 }
