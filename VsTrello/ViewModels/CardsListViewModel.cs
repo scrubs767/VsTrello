@@ -11,6 +11,7 @@ using Scrubs.VisualStudio;
 using System.Diagnostics;
 using VsTrello.Services;
 using Microsoft.VisualStudio.Shell;
+using System.ComponentModel;
 
 namespace VsTrello.ViewModels
 {
@@ -28,6 +29,15 @@ namespace VsTrello.ViewModels
             LaunchBroswerCommand = new RelayCommand(OpenBrowser, (_) => { return true; });
             _settings = Scrubs.VisualStudio.Services.DefaultExportProvider.GetExportedValue<IPackageSettings>();
             _settings.PropertyChanged += _settings_PropertyChanged;
+            foreach (var item in _settings.SearchListColumns)
+            {
+                item.PropertyChanged += Item_PropertyChanged;
+            }
+        }
+
+        private void Item_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            RaisePropertyChanged("Columns");
         }
 
         private void _settings_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)

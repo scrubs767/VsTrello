@@ -31,6 +31,7 @@ namespace VsTrello.UI
             UpCommand = new RelayCommand(MoveColumnUp, CanMoveColumnUp);
             DownCommand = new RelayCommand(MoveColumnDown, CanMoveColumnDown);
             DataContext = this;
+            
         }
 
         public void RaisePropertyChanged([CallerMemberName] string propertyName = null)
@@ -71,7 +72,15 @@ namespace VsTrello.UI
             RaisePropertyChanged("SearchListColumns");
         }
 
-        public IEnumerable<SearchListColumn> SearchListColumns { get { return _settings.SearchListColumns; } set { _settings.SearchListColumns = value; _settings.Save(); } }
+        public IEnumerable<SearchListColumn> SearchListColumns
+        {
+            get { return _settings.SearchListColumns; }
+            set
+            {
+                _settings.SearchListColumns = value;
+                _settings.Save();
+            }
+        }
 
         public string TokenRequestUrl
         {
