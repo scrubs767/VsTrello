@@ -1,4 +1,6 @@
-﻿using Scrubs.VisualStudio;
+﻿using Scrubs.MvvmWeak;
+using Scrubs.VisualStudio;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Windows.Controls;
 using System.Windows.Documents;
@@ -19,6 +21,8 @@ namespace VsTrello.UI
             DataContext = this;
         }
 
+        public IEnumerable<SearchListColumn> SearchListColumns { get { return _settings.SearchListColumns; } set { _settings.SearchListColumns = value; _settings.Save(); } }
+
         public string TokenRequestUrl
         {
             get
@@ -37,5 +41,12 @@ namespace VsTrello.UI
             string link = ((Hyperlink)sender).NavigateUri.ToString();
             Process.Start(link);
         }
+    }
+    public class SearchListColumn : NotifiableObject
+    {
+        bool _isChecked;
+        public bool IsChecked { get { return _isChecked; } set { _isChecked = value; RaisePropertyChanged(); } }
+        public string HeaderText { get; set; }
+        public string DisplayMember { get; set; }
     }
 }

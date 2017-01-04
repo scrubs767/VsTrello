@@ -28,8 +28,16 @@ namespace VsTrello.ViewModels
             LaunchBroswerCommand = new RelayCommand(OpenBrowser, (_) => { return true; });
             _settings = Scrubs.VisualStudio.Services.DefaultExportProvider.GetExportedValue<IPackageSettings>();
             _searchString = _settings.LastSearch;
+            _settings.PropertyChanged += _settings_PropertyChanged;
         }
 
+        private void _settings_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == "Saved")
+                RaisePropertyChanged("Columns");
+        }
+
+        public IEnumerable<VsTrello.UI.SearchListColumn> Columns { get { return _settings.SearchListColumns.Where(a=>a.IsChecked); } }
         private bool _IsProgressBarRunning = false;
         public bool IsProgressBarRunning { get { return _IsProgressBarRunning; } set { _IsProgressBarRunning = value; RaisePropertyChanged(); } }
 

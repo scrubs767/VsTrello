@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:VsTrello"
+             xmlns:ui="clr-namespace:VsTrello.UI"
              xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity" 
              xmlns:wpf="clr-namespace:Microsoft.TeamFoundation.Controls.WPF;assembly=Microsoft.TeamFoundation.Controls"             
              xmlns:tef="clr-namespace:Microsoft.TeamFoundation.Controls.WPF.TeamExplorer.Framework;assembly=Microsoft.TeamFoundation.Controls"
@@ -38,13 +39,9 @@
                 </i:EventTrigger>
             </i:Interaction.Triggers>
             <ListView.View>
-                <GridView ColumnHeaderContainerStyle="{DynamicResource ListViewColumnHeaderStyle}">
-                    <GridViewColumn Header="#" Width="Auto" DisplayMemberBinding="{Binding ShortId}" />
-                    <GridViewColumn Header="Name" Width="Auto" DisplayMemberBinding="{Binding Name}" />
-                    <!--<GridViewColumn Header="Created" Width="Auto" DisplayMemberBinding="{Binding CreationDate, StringFormat=d}" />
-                        <GridViewColumn Header="Due" Width="Auto" DisplayMemberBinding="{Binding DueDate, StringFormat=d}" />-->
-                    <GridViewColumn Header="List" Width="Auto" DisplayMemberBinding="{Binding List}" />
-                </GridView>
+                <GridView ui:GridViewColumnCollection.HeaderTextMember="HeaderText"
+                      ui:GridViewColumnCollection.DisplayMemberMember="DisplayMember"
+                      ui:GridViewColumnCollection.ColumnsSource="{Binding Columns}"/>
             </ListView.View>
             <ListView.ItemContainerStyle>
                 <Style TargetType="{x:Type ListViewItem}">
