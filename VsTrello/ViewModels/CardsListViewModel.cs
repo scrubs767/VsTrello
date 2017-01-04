@@ -36,10 +36,6 @@ namespace VsTrello.ViewModels
             {
                 RaisePropertyChanged("Columns");
             }
-            else if(e.PropertyName == "LastSearch")
-            {
-                RaisePropertyChanged("CardSearchStrings");
-            }
         }
 
         public IEnumerable<VsTrello.UI.SearchListColumn> Columns { get { return _settings.SearchListColumns.Where(a=>a.IsChecked); } }
@@ -78,6 +74,8 @@ namespace VsTrello.ViewModels
         private async void SearchExecute(object obj)
         {
             IsProgressBarRunning = true;
+            Cards = await DoSearch(SelectedSearchString);
+            IsProgressBarRunning = false;
             List<string> searches = new List<string>(_settings.LastSearch);
             if (!searches.Contains(SelectedSearchString))
             {
@@ -86,9 +84,7 @@ namespace VsTrello.ViewModels
             if (searches.Count() > _settings.MruLastSearchCount) { searches = searches.AsEnumerable().Reverse().Take(_settings.MruLastSearchCount).Reverse().ToList(); }
             _settings.LastSearch = searches;
             _settings.Save();
-
-            Cards = await DoSearch(SelectedSearchString);
-            IsProgressBarRunning = false;
+            RaisePropertyChanged("CardSearchStrings");
         }
 
         public ICommand SearchCommand { get; set; }
