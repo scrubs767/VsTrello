@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 
 namespace VsTrello
@@ -7,7 +8,7 @@ namespace VsTrello
     {
         string ApplicationKey { get; }
         string Token { get; set; }
-        string LastSearch { get; set; }
+        IEnumerable<string> LastSearch { get; set; }
         void Save();
         bool ShowDetails { get; set; }
         event PropertyChangedEventHandler PropertyChanged;

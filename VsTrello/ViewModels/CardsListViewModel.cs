@@ -27,7 +27,13 @@ namespace VsTrello.ViewModels
             OpenCardCommand = new RelayCommand(OpenCardExecute, (_)=> { return true; });
             LaunchBroswerCommand = new RelayCommand(OpenBrowser, (_) => { return true; });
             _settings = Scrubs.VisualStudio.Services.DefaultExportProvider.GetExportedValue<IPackageSettings>();
-            _searchString = _settings.LastSearch;
+            _settings.PropertyChanged += _settings_PropertyChanged;
+        }
+
+        private void _settings_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == "LastSearch")
+                RaisePropertyChanged("CardSearchStrings");
         }
 
         private bool _IsProgressBarRunning = false;
@@ -57,26 +63,33 @@ namespace VsTrello.ViewModels
 
         private bool CanSearchExecute(object arg)
         {
-            if (_searchString != null && _searchString.Length > 0) return true;
+            if (SelectedSearchString != null && SelectedSearchString.Count() > 0) return true;
             return false;
         }
 
+        public string SelectedSearchString { get; set; }
         private async void SearchExecute(object obj)
         {
             IsProgressBarRunning = true;
-            _settings.LastSearch = _searchString;
-            _settings.Save();
-            Cards = await DoSearch(CardSearchString);
+            List<string> searches = new List<string>(_settings.LastSearch);
+            if (!searches.Contains(SelectedSearchString))
+            {
+                searches.Add(SelectedSearchString);
+                if (searches.Count() > 6) { searches = searches.AsEnumerable().Reverse().Take(6).Reverse().ToList(); }
+                _settings.LastSearch = searches;
+                _settings.Save();
+            }
+            
+            Cards = await DoSearch(SelectedSearchString);
             IsProgressBarRunning = false;
         }
 
         public ICommand SearchCommand { get; set; }
 
-        private string _searchString = null;
-        public string CardSearchString
+        public IEnumerable<string> CardSearchStrings
         {
-            get { return _searchString; }
-            set { _searchString = value;}
+            get { return _settings.LastSearch; }
+            set { _settings.LastSearch = value; }
         }
 
         IEnumerable<Card> _cards;

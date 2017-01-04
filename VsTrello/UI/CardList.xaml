@@ -12,6 +12,7 @@
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="/VsTrello;component/Resources/VisualStudioStyles.xaml" />
+                <ResourceDictionary Source="/VsTrello;component/Resources/Styles.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </UserControl.Resources>
@@ -27,7 +28,16 @@
             <ColumnDefinition Width="75"/>
         </Grid.ColumnDefinitions>
 
-        <wpf:LabeledTextBox Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Text="{Binding CardSearchString, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" Margin="5" HintText="try @me -is:archived" IsRequired="true" AcceptsReturn="false" />
+        <!--<wpf:LabeledTextBox Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Text="{Binding CardSearchString, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" Margin="5" HintText="try @me -is:archived" IsRequired="true" AcceptsReturn="false" />-->
+        <ComboBox Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" 
+          IsEditable="True" 
+          IsTextSearchEnabled="True" 
+          IsTextSearchCaseSensitive="False" 
+          StaysOpenOnEdit="True"
+          Text="{Binding SelectedSearchString, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" 
+          SelectedItem="{Binding SelectedSearchString}"
+          ItemsSource="{Binding CardSearchStrings}" 
+          Style="{StaticResource VSStyledComboBox}"/>
         <teamExplorer:TextLink Grid.Row="1" Grid.Column="1"  Text="Search Help" Margin="5" Command="{Binding LaunchBroswerCommand}" CommandParameter="http://help.trello.com/article/808-searching-for-cards-all-boards" HorizontalAlignment="Right"/>
         <Button Grid.Row="1" Width="75" Grid.Column="0"  Margin="5" Content="Search" Command="{Binding SearchCommand}" HorizontalAlignment="Left"/>
         <ProgressBar Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" Minimum="0" Maximum="100" Margin="5,0,5,0" Value="0" IsIndeterminate="{Binding IsProgressBarRunning}"/>

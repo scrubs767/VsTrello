@@ -18,6 +18,8 @@
         <Setter Property="Foreground" Value="{DynamicResource BodyTextBrushKey}"/>
         <Setter Property="Background" Value="Transparent"/>
     </Style>
+
+    <Style x:Key="VSStyledComboBox" BasedOn="{StaticResource VsComboBoxStyleKey}" TargetType="{x:Type ComboBox}" />
     
     <Style x:Key="TitleText" TargetType="{x:Type TextBlock}">
         <Setter Property="FontSize" Value="18"/>
