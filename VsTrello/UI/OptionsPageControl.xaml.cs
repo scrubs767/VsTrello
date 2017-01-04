@@ -32,6 +32,8 @@ namespace VsTrello.UI
             }
         }
 
+        public int MruLastSearchCount { get { return _settings.MruLastSearchCount; } set { _settings.MruLastSearchCount = value; _settings.Save(); } }
+
         public string Token { get { return _settings.Token; } set { _settings.Token = value; _settings.Save(); } }
 
         private void Hyperlink_RequestNavigate(object sender, RequestNavigateEventArgs e)

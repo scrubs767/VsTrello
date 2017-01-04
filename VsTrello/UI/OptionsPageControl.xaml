@@ -68,8 +68,9 @@
             <Grid.RowDefinitions>
                 <RowDefinition Height="25"/>
                 <RowDefinition Height="22"/>
-                <RowDefinition/>
-                <RowDefinition Height="22"/>
+                <RowDefinition Height="35"/>
+                <RowDefinition Height="25"/>
+                <RowDefinition Height="30"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
@@ -77,7 +78,7 @@
             </Grid.ColumnDefinitions>
             <Label Grid.Row="0" Content="Token"/>
             <TextBox Grid.Row="1" Text="{Binding Token}"/>
-            
+
             <TextBlock TextWrapping="Wrap" Grid.Row="2">
                 <Run>Your token can be generated at Trello's website, just click the following URL and copy the Token into the above text box.</Run>
                 <Hyperlink NavigateUri="{Binding TokenRequestUrl}" RequestNavigate="Hyperlink_RequestNavigate">
@@ -86,7 +87,27 @@
                     </Hyperlink.Inlines>
                 </Hyperlink>
             </TextBlock>
-            <ListBox Grid.Row="4"  ItemsSource="{Binding SearchListColumns}">
+
+            <Grid Grid.Row="3">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <Label Grid.Column="0" Content="Search MRU list"/>
+                <Label Grid.Column="1" Content="{Binding ElementName=mruSlider, Path=Value}"/> 
+            </Grid>
+            <Slider
+                x:Name="mruSlider"
+                Orientation="Horizontal"
+                Grid.Row="4"
+                Minimum="0"
+                Maximum="50"
+                Value="{Binding MruLastSearchCount}"
+                IsSnapToTickEnabled="True"
+                TickFrequency="1"/>
+
+
+            <ListBox Grid.Row="5"  ItemsSource="{Binding SearchListColumns}">
                 <ListBox.ItemContainerStyle>
                     <Style TargetType="ListBoxItem">
                         <Setter Property="HorizontalContentAlignment" Value="Stretch"></Setter>
@@ -113,5 +134,5 @@
             </ListBox>
         </Grid>
     </GroupBox>
-    
+
 </UserControl>

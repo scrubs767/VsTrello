@@ -82,7 +82,7 @@ namespace VsTrello.ViewModels
             if (!searches.Contains(SelectedSearchString))
             {
                 searches.Add(SelectedSearchString);
-                if (searches.Count() > 6) { searches = searches.AsEnumerable().Reverse().Take(6).Reverse().ToList(); }
+                if (searches.Count() > _settings.MruLastSearchCount) { searches = searches.AsEnumerable().Reverse().Take(6).Reverse().ToList(); }
                 _settings.LastSearch = searches;
                 _settings.Save();
             }

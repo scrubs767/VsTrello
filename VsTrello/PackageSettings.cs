@@ -55,6 +55,13 @@ namespace VsTrello
             set { _token = value; RaisePropertyChanged(); }
         }
 
+        int _mruLastSearchCount;
+        public int MruLastSearchCount
+        {
+            get { return _mruLastSearchCount; }
+            set { _mruLastSearchCount = value; RaisePropertyChanged(); }
+        }
+
         IEnumerable<string> _lastSearch;
         public IEnumerable<string> LastSearch
         {
@@ -72,6 +79,7 @@ namespace VsTrello
         void LoadSettings()
         {
             ApplicationKey = "cee553af96c8146989fff7c325b8ef54";
+            MruLastSearchCount = (int)_settingsStore.Read("MruLastSearchCount", 6);
             Token = (string)_settingsStore.Read("Token", null);
             try
             {
@@ -122,7 +130,8 @@ namespace VsTrello
 
         void SaveSettings()
         {
-           // _settingsStore.Write("ApplicationKey", ApplicationKey);
+            // _settingsStore.Write("ApplicationKey", ApplicationKey);
+            _settingsStore.Write("MruLastSearchCount", MruLastSearchCount);
             _settingsStore.Write("Token", Token);
             _settingsStore.Write("LastSearch", SimpleJson.SerializeObject(LastSearch));
             _settingsStore.Write("ShowDetails", ShowDetails);
