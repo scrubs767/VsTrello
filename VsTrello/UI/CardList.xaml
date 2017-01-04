@@ -42,12 +42,12 @@
         <teamExplorer:TextLink Grid.Row="1" Grid.Column="1"  Text="Search Help" Margin="5" Command="{Binding LaunchBroswerCommand}" CommandParameter="http://help.trello.com/article/808-searching-for-cards-all-boards" HorizontalAlignment="Right"/>
         <Button Grid.Row="1" Width="75" Grid.Column="0"  Margin="5" Content="Search" Command="{Binding SearchCommand}" HorizontalAlignment="Left"/>
         <ProgressBar Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" Minimum="0" Maximum="100" Margin="5,0,5,0" Value="0" IsIndeterminate="{Binding IsProgressBarRunning}"/>
-        <ListView Grid.Row="3" Grid.ColumnSpan="2" Margin="5" SelectedItem="{Binding SelectedCard}" ItemsSource="{Binding Cards}" VerticalContentAlignment="Stretch" Background="{StaticResource ToolWindowBackgroundBrushKey}">
-            <ListView.Resources>
+        <ListView Grid.Row="3" Grid.ColumnSpan="2" Margin="5" MinHeight="50" SelectedItem="{Binding SelectedCard}" ItemsSource="{Binding Cards}" VerticalContentAlignment="Stretch"  ItemContainerStyle="{StaticResource FlatListViewItemStyle}">
+            <!--<ListView.Resources>
                 <Style TargetType="{x:Type GridViewColumnHeader}">
                     <Setter Property="HorizontalContentAlignment" Value="Left" />
                 </Style>
-            </ListView.Resources>
+            </ListView.Resources>-->
             <i:Interaction.Triggers>
                 <i:EventTrigger EventName="MouseDoubleClick" >
                     <i:InvokeCommandAction Command="{Binding OpenCardCommand}" CommandParameter="{Binding SelectedCard.ShortUrl}"/>
@@ -57,9 +57,10 @@
                 <GridView ui:GridViewColumnCollection.HeaderTextMember="HeaderText"
                       ui:GridViewColumnCollection.DisplayMemberMember="DisplayMember"
                       ui:GridViewColumnCollection.ColumnsSource="{Binding Columns}"
-                          AllowsColumnReorder="False"/>
+                          AllowsColumnReorder="False"
+                          ColumnHeaderContainerStyle="{StaticResource FlatGridViewColumnHeader}"/>
             </ListView.View>
-            <ListView.ItemContainerStyle>
+            <!--<ListView.ItemContainerStyle>
                 <Style TargetType="{x:Type ListViewItem}">
                     <Setter Property="ToolTip">
                         <Setter.Value>
@@ -82,7 +83,7 @@
                         </Setter.Value>
                     </Setter>
                 </Style>
-            </ListView.ItemContainerStyle>
+            </ListView.ItemContainerStyle>-->
         </ListView>
     </Grid>
 </UserControl>
