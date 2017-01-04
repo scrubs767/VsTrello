@@ -100,7 +100,7 @@
                 x:Name="mruSlider"
                 Orientation="Horizontal"
                 Grid.Row="4"
-                Minimum="0"
+                Minimum="2"
                 Maximum="50"
                 Value="{Binding MruLastSearchCount}"
                 IsSnapToTickEnabled="True"
@@ -136,3 +136,4 @@
     </GroupBox>
 
 </UserControl>
+
