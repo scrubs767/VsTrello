@@ -7,13 +7,14 @@
                     xmlns:vm="clr-namespace:VsTrello.ViewModels"
                     xmlns:ui="clr-namespace:VsTrello.UI"
                     xmlns:mx="clr-namespace:Markdown.Xaml"
-                    xmlns:mt="clr-namespace:Manatee.Trello;assembly=Manatee.Trello">
+                    xmlns:mt="clr-namespace:Manatee.Trello;assembly=Manatee.Trello"
+                    xmlns:diag="clr-namespace:System.Diagnostics;assembly=WindowsBase">
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="/VsTrello;component/Resources/VisualStudioStyles.xaml" />
         <ResourceDictionary Source="/VsTrello;component/Markdown/Markdown.Demo.Styles.Default.xaml" />
     </ResourceDictionary.MergedDictionaries>
     <ui:TrelloColorConverter x:Key="TrelloColorConverter"/>
-    
+    <ui:AttachmentToImageConverter x:Key="AttachmentToImageConverter"/>
     <Style x:Key="CheckboxStyle" TargetType="{x:Type CheckBox}">
         <Setter Property="Foreground" Value="{DynamicResource BodyTextBrushKey}"/>
         <Setter Property="Background" Value="Transparent"/>
@@ -95,7 +96,7 @@
                         SeparatorStyle="{StaticResource SeparatorStyle}"/>
     <mx:TextToFlowDocumentConverter x:Key="TextToFlowDocumentConverter" Markdown="{StaticResource Markdown}"/>
     
-    <DataTemplate DataType="{x:Type vm:Comment}">
+    <DataTemplate DataType="{x:Type vm:CommentAction}">
         <StackPanel>
             <Border BorderThickness="1"  Margin="0,0,0,7" BorderBrush="{DynamicResource SubduedBorderBrushKey}" CornerRadius="6" Padding="2" HorizontalAlignment="Stretch">
                 <Grid>
@@ -125,8 +126,33 @@
             </DataTrigger>
         </DataTemplate.Triggers>
     </DataTemplate>
-    
-    
+
+    <DataTemplate DataType="{x:Type vm:AttachmentAction}">
+        <Border BorderThickness="1"  Margin="0,0,0,7" BorderBrush="{DynamicResource SubduedBorderBrushKey}" CornerRadius="6" Padding="2">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <Image x:Name="Avatar" Grid.Column="0" Grid.Row="0"  Height="24" Width="24" Margin="5,0,5,0" Source="{Binding MemberImage}" />
+                <Border x:Name="AltAvatar" Grid.Row="0"  CornerRadius="3" BorderThickness="1" Background="Gray" Height="24" Width="24" Visibility="Collapsed" Margin="5,0,5,0">
+                    <TextBlock  Text="{Binding Initials}" Foreground="Black" HorizontalAlignment="Center" TextAlignment="Center" VerticalAlignment="Center" FontWeight="Bold" FontSize="12"/>
+                </Border>
+                <TextBlock Grid.Column="1" Grid.Row="0" Text="{Binding Creator}"  FontWeight="Bold"  />
+                <TextBlock Grid.Column="2" Grid.Row="0" Text="{Binding Text }"    Margin="5,0,5,0"/>
+                <Image x:Name="attachmentImage" Grid.Row="1" Grid.ColumnSpan="4" Grid.Column="0" Margin="5,5,10,5" RenderOptions.BitmapScalingMode="Fant" Stretch="None" HorizontalAlignment="Center" Source="{Binding ImageAttachment, Converter={StaticResource AttachmentToImageConverter},diag:PresentationTraceSources.TraceLevel=High}"/>
+                <TextBlock Grid.Column="3" Grid.Row="2" Text="{Binding Date}" />
+            </Grid>
+        </Border>
+    </DataTemplate>
+
     <DataTemplate DataType="{x:Type vm:SimpleAction}">
         <Border BorderThickness="1"  Margin="0,0,0,7" BorderBrush="{DynamicResource SubduedBorderBrushKey}" CornerRadius="6" Padding="2">
             <Grid>

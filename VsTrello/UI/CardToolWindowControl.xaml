@@ -23,6 +23,8 @@
                     
                     <ui:LaunchBrowserCommand x:Key="LaunchBrowserCommand" />
                     <ui:DebugConverter x:Key="DebugConverter"/>
+                    <ui:AttachmentToImageConverter x:Key="AttachmentToImageConverter"/>
+                    <ui:AttachmentToFileExtensionConverter x:Key="AttachmentToFileExtensionConverter"/>
                 </ResourceDictionary>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
@@ -81,15 +83,46 @@
             </StackPanel>
             <TextBlock Grid.Row="2"  Margin="5,0,0,0" Style="{StaticResource TitleText}" Text="Attachments"/>
             <ItemsControl Grid.Row="3" Margin="5,0,0,20" ItemsSource="{Binding Card.Attachments}" ScrollViewer.HorizontalScrollBarVisibility="Disabled" HorizontalContentAlignment="Stretch">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                    <UniformGrid IsItemsHost="True" />
+                </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
-                        <TextBlock Grid.Row="1">
-                    <Hyperlink Command="{StaticResource LaunchBrowserCommand}" CommandParameter="{Binding Url}">
-                        <Hyperlink.Inlines>
-                            <Run Text="{Binding Name, Mode=OneWay}" />
-                        </Hyperlink.Inlines>
-                    </Hyperlink>
-                        </TextBlock>
+                        <Border BorderThickness="1" Margin="5">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="25"/>
+                                <RowDefinition Height="25"/>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="25"/>
+                            </Grid.RowDefinitions>
+                            <Image x:Name="image" Grid.Row="0" Grid.RowSpan="4" Grid.Column="0" Margin="5,5,10,5" Height="78" Width="108" RenderOptions.BitmapScalingMode="Fant" Stretch="Fill" HorizontalAlignment="Center" Source="{Binding Converter={StaticResource AttachmentToImageConverter}}"/>
+                                <Border x:Name="altImage" Grid.Row="0" Grid.RowSpan="4" Grid.Column="0" Margin="5,5,10,5" BorderThickness="1" BorderBrush="DarkGray" Background="Gray"  Height="78" Width="108" Visibility="Collapsed">
+                                    <TextBlock Text="{Binding Name, Converter ={StaticResource AttachmentToFileExtensionConverter}}"  TextAlignment="Center"  FontSize="25" HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Bold" FontFamily="Arial"/>
+                                </Border>
+                                <TextBlock Grid.Column="1" Grid.Row="0" Margin="0,5,0,0" Text="{Binding Name}"/>
+                            <TextBlock Grid.Column="1" Grid.Row="1" TextAlignment="Left"  Text="{Binding Date, StringFormat=M-d-yyyy}" VerticalAlignment="Top"/>
+                            <TextBlock Grid.Column="1" Grid.Row="3" TextAlignment="Left" VerticalAlignment="Bottom" Margin="0,0,0,10">
+                                <Hyperlink Command="{StaticResource LaunchBrowserCommand}" CommandParameter="{Binding Url}">
+                                    <Hyperlink.Inlines>
+                                        <Run Text="Download" />
+                                    </Hyperlink.Inlines>
+                                </Hyperlink>
+                            </TextBlock>
+                        </Grid>
+                        </Border>
+                        <DataTemplate.Triggers>
+                            <DataTrigger Binding="{Binding Converter={StaticResource AttachmentToImageConverter}}" Value="{x:Null}">
+                                <Setter TargetName="image" Property="Visibility" Value="Collapsed" />
+                                <Setter TargetName="altImage" Property="Visibility" Value="Visible" />
+                            </DataTrigger>
+                        </DataTemplate.Triggers>
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
             </ItemsControl>

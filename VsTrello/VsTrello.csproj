@@ -54,6 +54,7 @@
     <Compile Include="CardToolWindow.cs" />
     <Compile Include="Markdown\Markdown.cs" />
     <Compile Include="Markdown\TextToFlowDocumentConverter.cs" />
+    <Compile Include="UI\AttachmentToFileExtensionConverter.cs" />
     <Compile Include="UI\BrushToColorConverter.cs" />
     <Compile Include="UI\CardToolWindowControl.xaml.cs">
       <DependentUpon>CardToolWindowControl.xaml</DependentUpon>
@@ -66,6 +67,7 @@
     <Compile Include="UI\CardList.xaml.cs">
       <DependentUpon>CardList.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UI\AttachmentToImageConverter.cs" />
     <Compile Include="UI\DebugConverter.cs" />
     <Compile Include="UI\GridViewColumns.cs" />
     <Compile Include="UI\LaunchBrowserCommand.cs" />

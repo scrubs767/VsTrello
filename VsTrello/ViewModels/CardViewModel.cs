@@ -72,7 +72,7 @@ namespace VsTrello.ViewModels
 
             if (action.Type == ActionType.CommentCard)
             {
-                return new Comment() { Text = action.Data.Text, Creator = action.Creator.ToString(), Date = action.Date, MemberImage = action.Creator.AvatarUrl, Initials = action.Creator.Initials };
+                return new CommentAction() { Text = action.Data.Text, Creator = action.Creator.ToString(), Date = action.Date, MemberImage = action.Creator.AvatarUrl, Initials = action.Creator.Initials };
             }
             else if (action.Type == ActionType.UpdateCard)
             {
@@ -85,7 +85,12 @@ namespace VsTrello.ViewModels
             else if (action.Type == ActionType.AddAttachmentToCard)
             {
                 if (!ShowDetails) return null;
-                return new SimpleAction() { Text = $"attached {action.Data.Attachment} to this card.", Creator = action.Creator.ToString(), Date = action.Date, MemberImage = action.Creator.AvatarUrl, Initials = action.Creator.Initials };
+                if (action.Data != null && action.Data.Attachment != null)
+                {
+                    var attachment = action.Data.Attachment;
+                    return new AttachmentAction() { Text = $"attached {action.Data.Attachment} to this card.", Creator = action.Creator.ToString(), Date = action.Date, MemberImage = action.Creator.AvatarUrl, Initials = action.Creator.Initials, ImageAttachment = attachment };
+                }
+                return new SimpleAction() { Text = $"attached {action.Data.Attachment} to this card.", Creator = action.Creator.ToString(), Date = action.Date, MemberImage = action.Creator.AvatarUrl, Initials = action.Creator.Initials};
             }
 
             else if (action.Type == ActionType.AddMemberToCard)
@@ -190,7 +195,7 @@ namespace VsTrello.ViewModels
         #endregion
     }
 
-    public class Comment : NotifiableObject, IAction
+    public class CommentAction : NotifiableObject, IAction
     {
         public string Text { get; set; }
         public DateTime? Date { get; set; }
@@ -199,13 +204,14 @@ namespace VsTrello.ViewModels
         public string Initials { get; set; }
     }
 
-    public class Attachment : NotifiableObject, IAction
+    public class AttachmentAction : NotifiableObject, IAction
     {
         public string Text { get; set; }
         public DateTime? Date { get; set; }
         public string Creator { get; set; }
         public string MemberImage { get; set; }
         public string Initials { get; set; }
+        public Manatee.Trello.Attachment ImageAttachment{ get; set; }
     }
 
     public class SimpleAction : NotifiableObject, IAction
