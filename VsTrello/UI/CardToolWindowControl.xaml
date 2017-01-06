@@ -88,7 +88,7 @@
             <ItemsControl Grid.Row="3" Margin="5,0,0,20" ItemsSource="{Binding Card.Attachments}" ScrollViewer.HorizontalScrollBarVisibility="Disabled" HorizontalContentAlignment="Stretch">
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
-                    <UniformGrid IsItemsHost="True" />
+                    <WrapPanel IsItemsHost="True" />
                 </ItemsPanelTemplate>
                 </ItemsControl.ItemsPanel>
                 <ItemsControl.ItemTemplate>
