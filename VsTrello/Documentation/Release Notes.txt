@@ -1,4 +1,7 @@
-﻿Version 0.2.4:
+﻿Version 0.3.0:
+Attachments are now displayed as a thumbnail under attachments, and larger in the actions sections.
+
+Version 0.2.4:
 MRU searches
 Set MRU length
 You can now select/order which columns are displayed in the search list
