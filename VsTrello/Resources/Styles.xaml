@@ -149,7 +149,7 @@
                 </Border>
                 <TextBlock Grid.Column="1" Grid.Row="0" Text="{Binding Creator}"  FontWeight="Bold"  />
                 <TextBlock Grid.Column="2" Grid.Row="0" Text="{Binding Text }"    Margin="5,0,5,0"/>
-                <Image x:Name="attachmentImage" Grid.Row="1" Grid.ColumnSpan="4" Grid.Column="0" Margin="5,5,10,5" RenderOptions.BitmapScalingMode="Fant" Stretch="None" HorizontalAlignment="Center" Source="{Binding ImageAttachment, Converter={StaticResource AttachmentToImageConverter},diag:PresentationTraceSources.TraceLevel=High}"/>
+                <Image x:Name="attachmentImage" Grid.Row="1" Grid.ColumnSpan="4" Grid.Column="0" Margin="5,5,10,5" RenderOptions.BitmapScalingMode="Fant" Stretch="None" HorizontalAlignment="Center" Source="{Binding ImageAttachment, Converter={StaticResource AttachmentToImageConverter}}"/>
                 <TextBlock Grid.Column="3" Grid.Row="2" Text="{Binding Date}" />
             </Grid>
         </Border>
