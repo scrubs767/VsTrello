@@ -68,6 +68,8 @@
       <DependentUpon>CardList.xaml</DependentUpon>
     </Compile>
     <Compile Include="UI\AttachmentToImageConverter.cs" />
+    <Compile Include="UI\CheckItemStateToBoolConverter.cs" />
+    <Compile Include="UI\CheckListCompletionConverter.cs" />
     <Compile Include="UI\DebugConverter.cs" />
     <Compile Include="UI\GridViewColumns.cs" />
     <Compile Include="UI\LaunchBrowserCommand.cs" />

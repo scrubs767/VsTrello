@@ -37,6 +37,7 @@
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
@@ -81,6 +82,8 @@
                         Grid.Row="1"
                         Background="Transparent"/>
             </StackPanel>
+
+            <!-- Attachments -->
             <TextBlock Grid.Row="2"  Margin="5,0,0,0" Style="{StaticResource TitleText}" Text="Attachments"/>
             <ItemsControl Grid.Row="3" Margin="5,0,0,20" ItemsSource="{Binding Card.Attachments}" ScrollViewer.HorizontalScrollBarVisibility="Disabled" HorizontalContentAlignment="Stretch">
                 <ItemsControl.ItemsPanel>
@@ -126,7 +129,12 @@
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
             </ItemsControl>
-            <Grid Grid.Row="4">
+            
+            <!-- Checklists-->
+            <ItemsControl Grid.Row="4" Margin="5,0,0,20" ItemsSource="{Binding Card.CheckLists}" ScrollViewer.HorizontalScrollBarVisibility="Disabled" HorizontalContentAlignment="Stretch"/>
+
+            <!-- Actions -->
+            <Grid Grid.Row="5">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="Auto"/>
@@ -134,7 +142,7 @@
                 <TextBlock Grid.Column="0" Margin="5,0,0,0" Style="{StaticResource TitleText}" Text="Activity"/>
                 <CheckBox Grid.Column="1" IsChecked="{Binding ShowDetails, Mode=TwoWay}" Content="Show Details"  Style="{StaticResource CheckboxStyle}"/>
             </Grid> 
-            <ItemsControl Grid.Row="5" Margin="5,0,0,0" ItemsSource="{Binding Actions}" ScrollViewer.HorizontalScrollBarVisibility="Disabled" HorizontalContentAlignment="Stretch"/>
+            <ItemsControl Grid.Row="6" Margin="5,0,0,0" ItemsSource="{Binding Actions}" ScrollViewer.HorizontalScrollBarVisibility="Disabled" HorizontalContentAlignment="Stretch"/>
         </Grid>
     </ScrollViewer>
 </UserControl>
