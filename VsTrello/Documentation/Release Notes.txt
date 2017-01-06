@@ -1,5 +1,6 @@
 ﻿Version 0.3.0:
 Attachments are now displayed as a thumbnail under attachments, and larger in the actions sections.
+Checklists are supported, but only in a read only way
 
 Version 0.2.4:
 MRU searches
